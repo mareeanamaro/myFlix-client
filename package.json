@@ -1,0 +1,28 @@
+{
+  "name": "myflix-client-v2",
+  "version": "1.0.0",
+  "description": "client-side for my flix",
+  "entry": "src/index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mareeanamaro/myFlix-client-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mareeanamaro/myFlix-client-v2/issues"
+  },
+  "homepage": "https://github.com/mareeanamaro/myFlix-client-v2#readme",
+  "devDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@parcel/core": "^2.3.2",
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
+    "parcel": "^2.0.0-nightly.1004"
+  }
+}

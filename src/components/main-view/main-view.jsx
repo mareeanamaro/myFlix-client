@@ -1,6 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 
-import {MovieCard} from '../movie-card/movie-card';
+import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
+import { MovieCard } from '../movie-card/movie-card';
 import { MovieView} from '../movie-view/movie-view';
 
 class MainView extends React.Component {
@@ -9,13 +12,26 @@ class MainView extends React.Component {
         super();
         this.state = {
             movies: [
-                {_id: 1, Title: 'Rear Window', Description: ' wheelchair-bound photographer spies on his neighbors from his Greenwich Village courtyard apartment window, and becomes convinced one of them has committed murder, despite the skepticism of his fashion-model girlfriend.', ImagePath: 'https://s3.amazonaws.com/nightjarprod/content/uploads/sites/130/2020/09/21125907/rear-window-poster.jpg'},
-                {_id: 2, Title: 'Carol', Description: 'An aspiring photographer develops an intimate relationship with an older woman in 1950s New York.', ImagePath: 'https://m.media-amazon.com/images/I/812vy2Xw0RL._AC_UY436_FMwebp_QL65_.jpg'},
-                {_id: 3, Title: 'Moulin Rouge!', Description: ' poor Bohemian poet in 1890s Paris falls for a beautiful courtesan and nightclub star whom a jealous duke covets.', ImagePath: 'https://3.bp.blogspot.com/-Q5uKEur2e8M/WJFkq9p88kI/AAAAAAAAVxU/ebr_VLzEibUi_BqW7tXx9okTJk92sYM2gCLcB/s1600/moulin-rouge-movie-poster.jpg'}
             ],
-            selectedMovie: null
+            selectedMovie: null, 
+            user: null,
+            registration: null
         }
     }
+
+    componentDidMount() {
+        axios.get('https://flicking-through-flicks.herokuapp.com/movies')
+            .then(response => 
+                {
+                    this.setState({
+                        movies: response.data
+                    });
+                })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
 
     setSelectedMovie(newSelectedMovie) {
         this.setState({
@@ -23,10 +39,25 @@ class MainView extends React.Component {
         });
     }
 
-    render() {
-        const { movies, selectedMovie } = this.state;
+    onRegistration(registration) {
+        this.setState(
+            {registration});
+    }
 
-        if (movies.length === 0) return <div className="main-view">The list is empty!</div>;
+    onLoggedIn(user) {
+        this.setState(
+            {user}
+        );
+    }
+
+    render() {
+        const { movies, selectedMovie, user } = this.state;
+
+        if(!registration) return <RegistrationView onRegistration={ registration => this.onRegistration(registration)} />;
+
+        if (!user) return <LoginView  onLoggedIn= { user => this.onLoggedIn(user)}/>;
+        
+        if (movies.length === 0) return <div className="main-view" />;
       
         return (
           <div className="main-view">

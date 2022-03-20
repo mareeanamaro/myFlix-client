@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView} from '../movie-view/movie-view';
 
@@ -13,12 +14,21 @@ class MainView extends React.Component {
             movies: [
             ],
             selectedMovie: null, 
-            user: null
+            user: null,
+            shouldCreateAccount: false
         }
+
+        this.handleRegister = this.handleRegister.bind(this);
+        this.onRegistration = this.onRegistration.bind(this);
     }
 
     componentDidMount() {
-        axios.get('https://flicking-through-flicks.herokuapp.com/movies')
+        const token = localStorage.getItem('token');
+        if (token) {
+        axios.get('https://flicking-through-flicks.herokuapp.com/movies', 
+        {
+            headers: { Authorization: `Bearer ${token}`}
+        })
             .then(response => 
                 {
                     this.setState({
@@ -28,7 +38,11 @@ class MainView extends React.Component {
             .catch(error => {
                 console.log(error);
             });
+            this.setState({
+                user: token
+            })
     }
+}
 
 
     setSelectedMovie(newSelectedMovie) {
@@ -38,13 +52,28 @@ class MainView extends React.Component {
     }
 
     onLoggedIn(user) {
+        localStorage.setItem('token', token);
         this.setState(
             {user}
         );
     }
 
+    handleRegister() {
+        this.setState({
+            shouldCreateAccount: true
+        });
+    }
+
+    onRegistration(token) {
+        localStorage.setItem('token', token);
+    }
+
     render() {
-        const { movies, selectedMovie, user } = this.state;
+        const { movies, selectedMovie, user, shouldCreateAccount } = this.state;
+
+        if(!user && shouldCreateAccount) {
+            return < RegistrationView onRegistration={token => this.onRegistration(token)}/>;
+        }
 
         if (!user) return <LoginView  onLoggedIn= { user => this.onLoggedIn(user)}/>;
         
@@ -63,7 +92,10 @@ class MainView extends React.Component {
             }
           </div>
         );
-      }
+     
+    
+    }
+
     }
 
 export default MainView;

@@ -17,7 +17,7 @@ export function LoginView(props) {
         if (response.status === 200 && response.data.token) {
             const {user, token} = response.data
             if (token) {
-                props.onLoggedIn(token);
+                props.onLoggedIn(token, user);
             }
         }
     }

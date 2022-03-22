@@ -22655,7 +22655,8 @@ class MainView extends _reactDefault.default.Component {
             movies: [],
             selectedMovie: null,
             user: null,
-            shouldCreateAccount: false
+            shouldCreateAccount: false,
+            token: null
         };
         this.handleRegister = this.handleRegister.bind(this);
         this.onRegistration = this.onRegistration.bind(this);
@@ -22684,9 +22685,10 @@ class MainView extends _reactDefault.default.Component {
             selectedMovie: newSelectedMovie
         });
     }
-    onLoggedIn(user) {
+    onLoggedIn(token, user) {
         localStorage.setItem('token', token);
         this.setState({
+            token,
             user
         });
     }
@@ -22704,22 +22706,24 @@ class MainView extends _reactDefault.default.Component {
             onRegistration: (token)=>this.onRegistration(token)
         }, void 0, false, {
             fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 75,
+            lineNumber: 77,
             columnNumber: 20
         }, this);
         if (!user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
             onLoggedIn: (user)=>this.onLoggedIn(user)
+            ,
+            handleRegister: this.handleRegister
         }, void 0, false, {
             fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 78,
+            lineNumber: 80,
             columnNumber: 27
         }, this);
         if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
             className: "main-view"
         }, void 0, false, {
             fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 80,
-            columnNumber: 41
+            lineNumber: 82,
+            columnNumber: 40
         }, this);
         return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
             className: "main-view",
@@ -22730,7 +22734,7 @@ class MainView extends _reactDefault.default.Component {
                 }
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 86,
+                lineNumber: 88,
                 columnNumber: 15
             }, this) : movies.map((movie1)=>/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_movieCard.MovieCard, {
                     movie: movie1,
@@ -22739,13 +22743,13 @@ class MainView extends _reactDefault.default.Component {
                     }
                 }, movie1._id, false, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 90,
+                    lineNumber: 92,
                     columnNumber: 13
                 }, this)
             )
         }, void 0, false, {
             fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 83,
+            lineNumber: 85,
             columnNumber: 11
         }, this);
     }
@@ -24328,7 +24332,7 @@ function LoginView(props) {
         });
         if (response.status === 200 && response.data.token) {
             const { user , token  } = response.data;
-            if (token) props.onLoggedIn(token);
+            if (token) props.onLoggedIn(token, user);
         }
     }
     return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {

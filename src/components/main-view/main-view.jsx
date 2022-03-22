@@ -13,9 +13,10 @@ class MainView extends React.Component {
         this.state = {
             movies: [
             ],
-            selectedMovie: null, 
+            selectedMovie: null,
             user: null,
-            shouldCreateAccount: false
+            shouldCreateAccount: false, 
+            token: null
         }
 
         this.handleRegister = this.handleRegister.bind(this);
@@ -51,10 +52,10 @@ class MainView extends React.Component {
         });
     }
 
-    onLoggedIn(user) {
+    onLoggedIn(token, user) {
         localStorage.setItem('token', token);
         this.setState(
-            {user}
+            {token, user}
         );
     }
 
@@ -68,6 +69,7 @@ class MainView extends React.Component {
         localStorage.setItem('token', token);
     }
 
+
     render() {
         const { movies, selectedMovie, user, shouldCreateAccount } = this.state;
 
@@ -75,9 +77,9 @@ class MainView extends React.Component {
             return < RegistrationView onRegistration={token => this.onRegistration(token)}/>;
         }
 
-        if (!user) return <LoginView  onLoggedIn= { user => this.onLoggedIn(user)}/>;
+        if (!user) return <LoginView  onLoggedIn= { user => this.onLoggedIn(user)} handleRegister={this.handleRegister}/>;
         
-        if (movies.length === 0) return <div className="main-view" />;
+       if (movies.length === 0) return <div className="main-view" />;
       
         return (
           <div className="main-view">
@@ -92,8 +94,6 @@ class MainView extends React.Component {
             }
           </div>
         );
-     
-    
     }
 
     }

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {Form, Button, Container, Row, Col , CardGroup, Card} from 'react-bootstrap';
 
 export function RegistrationView(props) {
     const [ username, setUsername ] = useState('');
@@ -26,29 +27,55 @@ export function RegistrationView(props) {
         }
     }
     
-return (
-    <form>
-        <label>
-            Username: 
-            <input type="text" value={username} 
-            onChange={ e => setUsername(e.target.value)}/>
-        </label>
-        <label>
-            Password: 
-            <input type="password" value={password} 
-            onChange={ e => setPassword(e.target.value)}/>
-        </label>
-        <label>
-            Email:
-            <input type="text" value={email} 
-            onChange={ e => setEmail(e.target.value)}/>
-        </label>
-        {/* <label>
-            Birthday:
-            <input type="birthday" value={birthday} 
-            onChange={ e => setBirthday(e.target.value)}/>
-        </label> */}
-        <button type="submit" onClick={handleSubmit}>Register</button>
-    </form>
 
+return (
+<Container>  
+    <Row className= "m-5 mx-auto w-50">
+    <Col>
+    <CardGroup>
+        <Card>
+            <Card.Body>
+            <Card.Title>Register below:</Card.Title>
+  
+<Form>
+    
+    <Form.Group controlID="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control 
+        type="text"
+        value={username}
+        onChange={ e => setUsername(e.target.value)}
+        required
+        placeholder='Enter your desired username'
+        />
+    </Form.Group>
+    <Form.Group controlID="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control 
+        type="password" 
+        value={password}
+        onChange={ e => setPassword(e.target.value)}
+        required
+        minLength={8}
+        placeholder='Your password must be 8 or more characters long'
+        />
+    </Form.Group>
+    <Form.Group controlID="formEmail">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control 
+        type="text" 
+        value={email} 
+        onChange={ e => setEmail(e.target.value)}
+        required
+        placeholder='Enter your email address'/>
+        </Form.Group>
+    <Button variant="primary" type="submit" onClick={handleSubmit}>Register</Button>
+    <Button variant="secondary" /*onClick={props.handleLogin}*/>Go to Login Page</Button>
+</Form>
+</Card.Body>
+</Card>
+</CardGroup>
+</Col>
+</Row> 
+</Container>
 );}

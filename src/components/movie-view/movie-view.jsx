@@ -1,24 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Form, Button, Container, Row, Col , CardGroup, Card} from 'react-bootstrap';
+import '../movie-view/movie-view.scss';
 
 export class MovieView extends React.Component {
 
     render() {
         const { movie, onBackClick } = this.props;
         return (
-            <div className="movie-view">
-            <div className="movie-poster"><img  alt={movie.title} height="400" crossOrigin="anonymous" src={movie.ImagePath} /></div>
-            <div className="movie-title">
-                <span className="label">Title: </span>
-                <span className="value">{movie.Title}</span>
-            </div>
-            <div className="movie-description">
-                <span className="label">Description: </span>
-                <span className="value">{movie.Description}</span>
-            </div>
-            <button onClick={() => { onBackClick(null);}}>Back</button>
-            </div>);
-        
+           <>
+             <Container>  
+    <Row className= "m-3 mx-auto h-1">
+    <Col>
+    <CardGroup>
+        <Card>
+
+         <Card.Img src={movie.ImagePath}/>
+            <Card.Body>
+             <Card.Title>{movie.Title}</Card.Title>
+            <Card.Subtitle>{movie.Director.Name}, {movie.Release}</Card.Subtitle>
+           <p></p>
+          <Card.Text>{movie.Description}
+          </Card.Text>
+          <Card.Text>{movie.Genre.Name}
+          </Card.Text>
+          
+          </Card.Body>
+    
+
+            </Card>
+</CardGroup>
+<Button onClick={() => { onBackClick(null);}}>Back</Button>
+</Col>
+
+</Row> 
+</Container>
+        </>)
     }
 }
 

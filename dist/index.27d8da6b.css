@@ -11,6 +11,9 @@
   color: #2DBC94;
 }
 
+.label {
+  font-weight: bold;
+}
 body {
   background-color: beige;
 }

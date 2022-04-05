@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
 
-function FavMovies({ favoriteMovieList }) {
+function FavMovies({ favoriteMovieList, removeFav }) {
 
     return (
 
@@ -18,8 +18,12 @@ function FavMovies({ favoriteMovieList }) {
                                 <Card.Title>{movie.Title}</Card.Title>
                                 <Card.Text>{movie.Description}</Card.Text>
                                 <Link to={`/movies/${movie._id}`}>
-                                    <Button className="open-link" variant="link">Open</Button>
+                                    <Button className="open-link" variant="link">More Details</Button>
                                 </Link>
+                                
+                                    <Button variant="danger"onClick={(e) => removeFav(e)}>Remove from Favorites</Button>
+                                
+                                
                             </Card.Body>
                         </Card>
                     )

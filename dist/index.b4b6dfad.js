@@ -34346,6 +34346,7 @@ class ProfileView extends _reactDefault.default.Component {
             Birthday: null,
             FavoriteMovies: []
         };
+        this.setState = this.setState.bind(this);
     }
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -34437,6 +34438,19 @@ class ProfileView extends _reactDefault.default.Component {
             Birthday: value
         });
     }
+    removeFav(id) {
+        e.preventDefault;
+        _axiosDefault.default.delete(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(()=>{
+            alert('User deleted');
+            window.open('/', '_self');
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
     render() {
         const { Username , Email , FavoriteMovies , setBirthday , setEmail , setPassword , setUsername , updateUserData  } = this.state;
         if (!Username) return null;
@@ -34448,25 +34462,26 @@ class ProfileView extends _reactDefault.default.Component {
                         email: Email
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 144,
+                        lineNumber: 164,
                         columnNumber: 5
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_favoriteMoviesDefault.default, {
-                        favoriteMovieList: FavoriteMovies
+                        favoriteMovieList: FavoriteMovies,
+                        removeFav: this.removeFav
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 145,
+                        lineNumber: 165,
                         columnNumber: 5
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateUserDefault.default, {
-                        setUsername: setUsername,
-                        setPassword: setPassword,
-                        setEmail: setEmail,
-                        setBirthday: setBirthday,
-                        updateUserData: updateUserData
+                        setUsername: this.setUsername,
+                        setPassword: this.setPassword,
+                        setEmail: this.setEmail,
+                        setBirthday: this.setBirthday,
+                        updateUserData: this.updateUserData
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 146,
+                        lineNumber: 166,
                         columnNumber: 5
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -34479,23 +34494,23 @@ class ProfileView extends _reactDefault.default.Component {
                                 children: "Delete your account"
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 147,
+                                lineNumber: 167,
                                 columnNumber: 39
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 147,
+                            lineNumber: 167,
                             columnNumber: 34
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 147,
+                        lineNumber: 167,
                         columnNumber: 5
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 143,
+                lineNumber: 163,
                 columnNumber: 5
             }, this)
         }, void 0, false);
@@ -34617,7 +34632,7 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
 var _reactBootstrap = require("react-bootstrap");
-function FavMovies({ favoriteMovieList  }) {
+function FavMovies({ favoriteMovieList , removeFav  }) {
     return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {
         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
             className: "m-2 mx-auto",
@@ -34657,7 +34672,7 @@ function FavMovies({ favoriteMovieList  }) {
                                         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
                                             className: "open-link",
                                             variant: "link",
-                                            children: "Open"
+                                            children: "More Details"
                                         }, void 0, false, {
                                             fileName: "src/components/profile-view/favorite-movies.jsx",
                                             lineNumber: 21,
@@ -34667,6 +34682,16 @@ function FavMovies({ favoriteMovieList  }) {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
                                         lineNumber: 20,
                                         columnNumber: 33
+                                    }, this),
+                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
+                                        variant: "danger",
+                                        onClick: (e)=>removeFav(e)
+                                        ,
+                                        children: "Remove from Favorites"
+                                    }, void 0, false, {
+                                        fileName: "src/components/profile-view/favorite-movies.jsx",
+                                        lineNumber: 24,
+                                        columnNumber: 37
                                     }, this)
                                 ]
                             }, void 0, true, {
@@ -34717,168 +34742,170 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
 function UpdateInfo({ setUsername , setPassword , setEmail , setBirthday , updateUserData  }) {
-    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
-        className: "m-2 mx-auto",
-        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-            children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.CardGroup, {
-                children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card, {
-                    children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Body, {
-                        children: [
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Title, {
-                                children: "Update your information:"
-                            }, void 0, false, {
-                                fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 14,
-                                columnNumber: 29
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form, {
-                                children: [
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
-                                        controlId: "formUsername",
-                                        children: [
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
-                                                children: "Username:"
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 17,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
-                                                type: "text",
-                                                name: "Username",
-                                                placeholder: "Enter your desired username",
-                                                onChange: (e)=>setUsername(e)
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 18,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 16,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
-                                        controlId: "formPassword",
-                                        children: [
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
-                                                children: "Password:"
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 26,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
-                                                type: "password",
-                                                placeholder: "Your password must be 8 or more characters long",
-                                                onChange: (e)=>setPassword(e)
-                                                ,
-                                                minLength: 8
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 27,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 25,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
-                                        controlId: "formEmail",
-                                        children: [
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
-                                                children: "Email:"
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 38,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
-                                                type: "text",
-                                                onChange: (e)=>setEmail(e)
-                                                ,
-                                                placeholder: "Enter your email address"
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 39,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 37,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
-                                        controlId: "updateBirthday",
-                                        children: [
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
-                                                children: "Birthday:"
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 47,
-                                                columnNumber: 37
-                                            }, this),
-                                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
-                                                type: "date",
-                                                name: "birthday",
-                                                onChange: (e)=>setBirthday(e)
-                                            }, void 0, false, {
-                                                fileName: "src/components/profile-view/update-user.jsx",
-                                                lineNumber: 48,
-                                                columnNumber: 37
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 46,
-                                        columnNumber: 33
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
-                                        variant: "primary",
-                                        type: "submit",
-                                        onClick: updateUserData,
-                                        children: "Update Info"
-                                    }, void 0, false, {
-                                        fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 56,
-                                        columnNumber: 33
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 15,
-                                columnNumber: 29
-                            }, this)
-                        ]
-                    }, void 0, true, {
+    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {
+        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
+            className: "m-2 mx-auto",
+            children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.CardGroup, {
+                    children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card, {
+                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Body, {
+                            children: [
+                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Title, {
+                                    children: "Update your information:"
+                                }, void 0, false, {
+                                    fileName: "src/components/profile-view/update-user.jsx",
+                                    lineNumber: 15,
+                                    columnNumber: 29
+                                }, this),
+                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form, {
+                                    children: [
+                                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
+                                            controlId: "formUsername",
+                                            children: [
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
+                                                    children: "Username:"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 18,
+                                                    columnNumber: 37
+                                                }, this),
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
+                                                    type: "text",
+                                                    name: "Username",
+                                                    placeholder: "Enter your desired username",
+                                                    onChange: (e)=>setUsername(e)
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 19,
+                                                    columnNumber: 37
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/profile-view/update-user.jsx",
+                                            lineNumber: 17,
+                                            columnNumber: 33
+                                        }, this),
+                                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
+                                            controlId: "formPassword",
+                                            children: [
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
+                                                    children: "Password:"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 27,
+                                                    columnNumber: 37
+                                                }, this),
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
+                                                    type: "password",
+                                                    placeholder: "Your password must be 8 or more characters long",
+                                                    onChange: (e)=>setPassword(e)
+                                                    ,
+                                                    minLength: 8
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 28,
+                                                    columnNumber: 37
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/profile-view/update-user.jsx",
+                                            lineNumber: 26,
+                                            columnNumber: 33
+                                        }, this),
+                                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
+                                            controlId: "formEmail",
+                                            children: [
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
+                                                    children: "Email:"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 39,
+                                                    columnNumber: 37
+                                                }, this),
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
+                                                    type: "text",
+                                                    onChange: (e)=>setEmail(e)
+                                                    ,
+                                                    placeholder: "Enter your email address"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 40,
+                                                    columnNumber: 37
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/profile-view/update-user.jsx",
+                                            lineNumber: 38,
+                                            columnNumber: 33
+                                        }, this),
+                                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
+                                            controlId: "updateBirthday",
+                                            children: [
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Label, {
+                                                    children: "Birthday:"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 48,
+                                                    columnNumber: 37
+                                                }, this),
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
+                                                    type: "date",
+                                                    name: "birthday",
+                                                    onChange: (e)=>setBirthday(e)
+                                                }, void 0, false, {
+                                                    fileName: "src/components/profile-view/update-user.jsx",
+                                                    lineNumber: 49,
+                                                    columnNumber: 37
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/profile-view/update-user.jsx",
+                                            lineNumber: 47,
+                                            columnNumber: 33
+                                        }, this),
+                                        /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
+                                            variant: "primary",
+                                            type: "submit",
+                                            onClick: updateUserData,
+                                            children: "Update Info"
+                                        }, void 0, false, {
+                                            fileName: "src/components/profile-view/update-user.jsx",
+                                            lineNumber: 57,
+                                            columnNumber: 33
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/profile-view/update-user.jsx",
+                                    lineNumber: 16,
+                                    columnNumber: 29
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/profile-view/update-user.jsx",
+                            lineNumber: 14,
+                            columnNumber: 25
+                        }, this)
+                    }, void 0, false, {
                         fileName: "src/components/profile-view/update-user.jsx",
                         lineNumber: 13,
-                        columnNumber: 25
+                        columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/profile-view/update-user.jsx",
                     lineNumber: 12,
-                    columnNumber: 21
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user.jsx",
                 lineNumber: 11,
-                columnNumber: 17
+                columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "src/components/profile-view/update-user.jsx",
             lineNumber: 10,
-            columnNumber: 13
+            columnNumber: 9
         }, this)
-    }, void 0, false, {
-        fileName: "src/components/profile-view/update-user.jsx",
-        lineNumber: 9,
-        columnNumber: 9
-    }, this);
+    }, void 0, false);
 }
 _c = UpdateInfo;
 exports.default = UpdateInfo;

@@ -19,7 +19,11 @@ export class ProfileView extends React.Component {
       Birthday: null,
       FavoriteMovies: []
     }
+
+    this.setState = this.setState.bind(this);
   }
+
+  
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -130,6 +134,22 @@ setBirthday(value) {
   })
 }
 
+removeFav(id) {
+
+  e.preventDefault;
+  axios.delete(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${id}`,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(() => {
+    alert('User deleted');
+    window.open('/', '_self');
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
 render () {
 
   const {Username, Email, FavoriteMovies, setBirthday, setEmail, setPassword, setUsername, updateUserData} = this.state;
@@ -142,8 +162,8 @@ render () {
     <>
     <Container>
     <UserInfo username = {Username} email = {Email} />
-    <FavMovies favoriteMovieList= {FavoriteMovies} />
-    <UpdateInfo setUsername = {setUsername} setPassword={setPassword} setEmail= {setEmail} setBirthday = {setBirthday} updateUserData={updateUserData}/>
+    <FavMovies favoriteMovieList={FavoriteMovies} removeFav={this.removeFav}/>
+    <UpdateInfo setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData}/>
     <Row className="m-2 mx-auto"><Col><Button variant="danger" onClick={(e) => this.deleteUser(e)}>Delete your account</Button></Col></Row>
     </Container>
     </>

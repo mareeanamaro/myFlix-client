@@ -6,6 +6,7 @@ import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse }
 function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData }) {
 
     return (
+        <>
         <Row className="m-2 mx-auto">
             <Col>
                 <CardGroup>
@@ -60,7 +61,8 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                     </Card>
                 </CardGroup>
             </Col>
-        </Row>)
+        </Row>
+        </>)
 }
 
 export default UpdateInfo;

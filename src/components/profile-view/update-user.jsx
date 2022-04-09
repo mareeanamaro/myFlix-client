@@ -3,7 +3,7 @@ import React from "react";
 import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
 
 
-function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData }) {
+function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData, user }) {
 
     return (
         <>
@@ -20,6 +20,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         type="text"
                                         name="Username"
                                         placeholder='Enter your desired username'
+                                        value = {user.Username}
                                         onChange={e => setUsername(e)}                                      
                                     />
                                 </Form.Group>
@@ -28,7 +29,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                     <Form.Control
                                         type="password"
                                         placeholder='Your password must be 8 or more characters long'
-                                 
+                                        
                                         onChange={e => setPassword(e)}     
                                         minLength={8}
                                         
@@ -39,7 +40,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                     <Form.Label>Email:</Form.Label>
                                     <Form.Control
                                         type="text"
-                                  
+                                        value = {user.Email}
                                         onChange={e => setEmail(e)}     
                                         placeholder='Enter your email address' />
                                 </Form.Group>
@@ -49,12 +50,12 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                     <Form.Control
                                         type="date"
                                         name="birthday"
-
+                                        value = {user.Birthday}
                                         onChange={e => setBirthday(e)}     
                                         />
 
                                 </Form.Group>
-                                <Button variant="primary" type="submit" onClick={updateUserData}>Update Info</Button>
+                                <Button variant="primary" type="button" onClick={updateUserData}>Update Info</Button>
                                 
                             </Form>
                         </Card.Body>

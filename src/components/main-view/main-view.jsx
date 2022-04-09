@@ -75,7 +75,6 @@ class MainView extends React.Component {
     render() {
         const { movies, user } = this.state;
 
-
         return (
             <Router>
                         <Menubar user= {user}/>
@@ -115,7 +114,7 @@ class MainView extends React.Component {
                         <Route path ="/profile"
                         render={({ user, history }) => {
                             return <Col>
-                                <ProfileView user={user} onBackClick={() => history.goBack()} />
+                                <ProfileView movies={movies} user={user} onBackClick={() => history.goBack()} />
                             </Col>
                         }}/>
                         

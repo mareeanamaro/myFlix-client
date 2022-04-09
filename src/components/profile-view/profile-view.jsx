@@ -10,8 +10,8 @@ import UpdateInfo from './update-user';
 export class ProfileView extends React.Component {
 
   // first initialise the state of the object
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       Username: null,
       Password: null,
@@ -57,7 +57,10 @@ export class ProfileView extends React.Component {
   }
 
   // function to update user data
-  updateUserData(e) {
+  updateUserData = (e) => {
+    const token = localStorage.getItem('token');
+    let Username = localStorage.getItem('user');
+
     e.preventDefault;
     axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
       {
@@ -110,39 +113,49 @@ deleteUser(e) {
   })
 }
 
-setUsername(value) {
+setUsername = (e) => {
+  const { value } = e.target;
   this.setState({
     Username: value
   })
 }
 
-setPassword(value) {
+setUsername = (e) => {
+  const { value } = e.target;
   this.setState({
     Password: value
   })
 }
 
-setEmail(value) {
+setEmail(e) {
+  const { value } = e.target;
   this.setState({
     Email: value
   })
 }
 
-setBirthday(value) {
+setBirthday(e) {
+  const { value } = e.target;
   this.setState({
     Birthday: value
   })
 }
 
-removeFav(id) {
+removeFav = (e) => {
+  let Username = localStorage.getItem('user');
+  const movies = this.state.FavoriteMovies;
+  const token = localStorage.getItem('token');
+
+  const [movie] = movies.filter(movie => movie._id === movieID);
 
   e.preventDefault;
-  axios.delete(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${id}`,
+
+  axios.delete(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${movie._id}`,
   {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(() => {
-    alert('User deleted');
+    alert('Movie deleted from your favorites.');
     window.open('/', '_self');
   })
   .catch(function (error) {
@@ -162,8 +175,8 @@ render () {
     <>
     <Container>
     <UserInfo username = {Username} email = {Email} />
-    <FavMovies favoriteMovieList={FavoriteMovies} removeFav={this.removeFav}/>
-    <UpdateInfo setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData}/>
+    <FavMovies movies={this.props.movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav}/>
+    <UpdateInfo user={this.state} setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData}/>
     <Row className="m-2 mx-auto"><Col><Button variant="danger" onClick={(e) => this.deleteUser(e)}>Delete your account</Button></Col></Row>
     </Container>
     </>

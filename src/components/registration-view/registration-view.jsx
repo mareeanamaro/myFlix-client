@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import './registration-view.scss';
+
 export function RegistrationView(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -11,22 +13,23 @@ export function RegistrationView(props) {
 
     const [usernameErr, setUsernameErr] = useState('');
     const [passwordErr, setPasswordErr] = useState('');
-    
+
     const validate = () => {
         let isReq = true;
-        if(!username){
+        if (!username) {
             setUsernameErr('Username Required');
             isReq = false;
-        } else if(username.length < 2 ){
+        } else if (username.length < 2) {
             setUsernameErr('Username must be at least two characters long');
             isReq = false;
         }
-        if(!password){
+        if (!password) {
             setPasswordErr('Password Required');
             isReq = false;
-        } else if (password.lenth < 8){
+        } else if (password.lenth < 8) {
             setPasswordErr('Password must be at least eight characters long');
-            isReq = false;}
+            isReq = false;
+        }
         return isReq;
     }
 
@@ -34,28 +37,35 @@ export function RegistrationView(props) {
         e.preventDefault();
         /* Send a request to the server for authentication  (to be added later)*/
         const isReq = validate();
-        if(isReq) {       
-        const response = await axios.post('https://flicking-through-flicks.herokuapp.com/users/', {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
-        })
-        .then(response => {
-            const data = response.data;
-            alert('Registration successful, please login!');
-            window.open('/', '_self');
-        })
-        .catch(response => {
-            console.error(response);
-            alert('Unable to register');
-        });
-}
-};
+        if (isReq) {
+            const response = await axios.post('https://flicking-through-flicks.herokuapp.com/users/', {
+                Username: username,
+                Password: password,
+                Email: email,
+                Birthday: birthday
+            })
+            if (response.status === 201) {
+
+                const loginResponse = await axios.post("https://flicking-through-flicks.herokuapp.com/login", {
+                    Username: username,
+                    Password: password
+                })
+                console.log(loginResponse);
+                if (loginResponse.status === 200) {
+                    const data = loginResponse.data;
+                    props.onLoggedIn(data);
+                }
+            }
+            switch(response.status) {
+                case 201: {} break;
+                case 400: {} break;
+                case 422: {} break;
+            }
+        }}
 
     return (
         <Container>
-            <Row className="m-5 mx-auto w-50">
+            <Row className="m-5 mx-auto w-75">
                 <Col>
                     <CardGroup>
                         <Card>
@@ -102,9 +112,9 @@ export function RegistrationView(props) {
                                             value={birthday}
                                             onChange={e => setBirthday(e.target.value)}
                                             required
-                                            />
+                                        />
                                     </Form.Group>
-                                    <Button variant="primary" type="submit" onClick={handleSubmit}>Register</Button>
+                                    <Button variant="primary" className ="submit-button" type="submit" onClick={handleSubmit}>Register</Button>
                                     <Link to="/login">
                                         <Button variant="secondary">Go to Login Page</Button>
                                     </Link>

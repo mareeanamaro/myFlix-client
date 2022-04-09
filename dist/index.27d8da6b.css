@@ -1,25 +1,35 @@
 .login-submit-button {
-  background-color: #2DBC94;
-  border-color: #2DBC94;
+  background-color: #2DBC94 !important;
+  border-color: #2DBC94 !important;
 }
 
 .login-submit-button:hover {
-  background-color: #1da07b;
-  border-color: white;
+  background-color: #1da07b !important;
+  border-color: white !important;
+}
+.submit-button {
+  background-color: #2DBC94 !important;
+  border-color: #2DBC94 !important;
+}
+
+.submit-button:hover {
+  background-color: #1da07b !important;
+  border-color: white !important;
 }
 .open-link {
-  color: #2DBC94;
+  color: #2DBC94 !important;
 }
 .open-link {
-  color: #2DBC94;
+  color: #2DBC94 !important;
 }
 .label {
   font-weight: bold;
 }
+
 body {
-  background-color: beige;
+  background-color: beige !important;
 }
 body {
-  background-color: beige;
+  background-color: beige !important;
 }
 /*# sourceMappingURL=index.27d8da6b.css.map */

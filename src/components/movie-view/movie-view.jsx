@@ -1,11 +1,30 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
+import axios from 'axios';
+import { Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../movie-view/movie-view.scss';
 
 import { Link } from 'react-router-dom';
 
 export class MovieView extends React.Component {
+
+    addFav = (e, movie) => {
+        const Username = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+
+        e.preventDefault;
+        axios.patch(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${movie._id}`,
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(() => {
+                alert('Movie added to your favorites.');
+                window.open('/profile', '_self');
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
 
     render() {
         const { movie, onBackClick } = this.props;
@@ -25,7 +44,11 @@ export class MovieView extends React.Component {
                                         <Card.Text>{movie.Description}
                                         </Card.Text>
                                         <Card.Text><Link className="open-link" to={`/genres/${movie.Genre.Name}`}>{movie.Genre.Name}
-                                        </Link>
+                                        </Link></Card.Text>
+                                        <Card.Text>
+                                            {/* need to fix CORS issue */}
+                                            <Button value={movie._id} onClick={(e) => this.addFav(e, movie)}>Add to Favorite Movies</Button>
+
                                         </Card.Text>
 
                                     </Card.Body>

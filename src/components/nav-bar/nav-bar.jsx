@@ -1,18 +1,18 @@
 import React from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 
-export function Menubar({user}) {
+export function Menubar({ user }) {
 
     const onLoggedOut = () => {
         localStorage.clear();
         window.open('/', '_self');
     }
-    
+
     const isAuth = () => {
-        if(typeof window =="undefined") {
+        if (typeof window == "undefined") {
             return false;
         }
-        if(localStorage.getItem('token')) {
+        if (localStorage.getItem('token')) {
             return localStorage.getItem('token');
         }
         else {
@@ -20,8 +20,8 @@ export function Menubar({user}) {
         }
     }
 
-    return( 
-        
+    return (
+
         <Navbar className='main-nav'>
             <Container>
                 <Navbar.Brand className='navbar-logo' href="/">
@@ -31,10 +31,10 @@ export function Menubar({user}) {
                 <Navbar.Collapse id='responsive-navbar-nav'>
                     <Nav className="ml-auto">
                         {
-                            isAuth() &&   <Nav.Link href="/profile">{user}</Nav.Link>
+                            isAuth() && <Nav.Link href="/profile">{user}</Nav.Link>
                         }
                         {
-                            isAuth() && <Button variant="link" onClick={() => { onLoggedOut( )}}>Log Out</Button>
+                            isAuth() && <Button variant="link" className="link" onClick={() => { onLoggedOut() }}>Log Out</Button>
                         }
                         {
                             !isAuth() && <Nav.Link href="/login">Sign In</Nav.Link>

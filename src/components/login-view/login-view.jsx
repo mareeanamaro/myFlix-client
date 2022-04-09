@@ -5,7 +5,7 @@ import {Form, Button, Container, Row, Col , CardGroup, Card} from 'react-bootstr
 import { Link } from 'react-router-dom';
 
 export function LoginView(props) {
-    const [ username, setUsername ] = useState('');
+    const [username, setUsername ] = useState('');
     const [password, setPassword ] = useState('');
 
     const [ usernameErr, setUsernameErr ] = useState('');
@@ -24,7 +24,7 @@ export function LoginView(props) {
             setPasswordErr('Password Required');
             isReq = false;
         } else if(password.length < 6){
-            setPassword('Password must be at least six characters long.');
+            setPasswordErr('Password must be at least six characters long.');
             isReq = false;
         }
 
@@ -72,13 +72,14 @@ return (
             value={username}
             onChange={ e => setUsername(e.target.value)}
             required/>
-            {usernameErr && <p>{UsernameErr}</p>}
+            {usernameErr && <p>{usernameErr}</p>}
             
         </Form.Group>
         <Form.Group controlId="formPassword">
             <Form.Label>Password:</Form.Label>
             <Form.Control 
             type="password" 
+            placeholder="Enter your password"
             value={password}
             onChange={ e => setPassword(e.target.value)}
             required
@@ -90,9 +91,6 @@ return (
             <Button variant="secondary">Register</Button>
         </Link>
     </Form>
-    
-    
-
 
         </Card.Body>
 </Card>

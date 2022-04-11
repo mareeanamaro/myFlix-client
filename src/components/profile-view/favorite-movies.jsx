@@ -30,7 +30,7 @@ function FavMovies({ favoriteMovieList, movies, removeFav }) {
 
     return (
         <>
-            <Row className="mx-auto w-100 p-3 mt-3"><h4>Favorite Movies</h4>
+            <Row className="mx-auto w-100 p-3 mt-3"><h4 className="title">Favorite Movies</h4>
             </Row>
             <Row className="mx-auto w-100">
 

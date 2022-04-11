@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 
+import '../nav-bar/nav-bar.scss';
+
 export function Menubar({ user }) {
 
     const onLoggedOut = () => {
@@ -22,16 +24,16 @@ export function Menubar({ user }) {
 
     return (
 
-        <Navbar className='main-nav'>
+        <Navbar className=' fluid main-nav navbar-bg m-3'>
             <Container>
-                <Navbar.Brand className='navbar-logo' href="/">
+                <Navbar.Brand className='navbar-logo navbar-text' href="/">
                     Flickin Through Flicks
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls='responsive-navbar-nav' />
                 <Navbar.Collapse id='responsive-navbar-nav'>
                     <Nav className="ml-auto">
                         {
-                            isAuth() && <Nav.Link href="/profile">{user}</Nav.Link>
+                            isAuth() && <Nav.Link className="navbar-text mr-4" href="/profile">{user}</Nav.Link>
                         }
                         {
                             isAuth() && <Button variant="link" className="link" onClick={() => { onLoggedOut() }}>Log Out</Button>

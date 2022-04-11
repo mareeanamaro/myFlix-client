@@ -10,7 +10,7 @@ function UserInfo({ email, username }) {
             <Col>
                 <Card>
                     <Card.Body>
-                        <Card.Title>Your Info</Card.Title>
+                        <Card.Title className="title">Your Info</Card.Title>
                         <Card.Text>
                             <b> Username:</b> {username}
                         </Card.Text>

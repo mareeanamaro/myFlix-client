@@ -1,7 +1,6 @@
 import React from "react";
-
-import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
-
+import { Form, Button, Row, Col, CardGroup, Card } from 'react-bootstrap';
+import '../profile-view/profile-view.scss';
 
 function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData, user }) {
 
@@ -12,7 +11,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                     <CardGroup>
                         <Card>
                             <Card.Body>
-                                <Card.Title>Update your information:</Card.Title>
+                                <Card.Title className="title">Update your information:</Card.Title>
                                 <Form>
                                     <Form.Group controlId="formUsername">
                                         <Form.Label>Username:</Form.Label>
@@ -55,7 +54,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         />
 
                                     </Form.Group>
-                                    <Button variant="primary" type="button" onClick={updateUserData}>Update Info</Button>
+                                    <Button className="button-profile" type="button" onClick={updateUserData}>Update Info</Button>
 
                                 </Form>
                             </Card.Body>

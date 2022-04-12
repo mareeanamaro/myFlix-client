@@ -10,7 +10,8 @@ export class MovieView extends React.Component {
     addFav = (e, movie) => {
         const Username = localStorage.getItem('user');
         const token = localStorage.getItem('token');
-
+        if (token && Username) {
+            if (token) {
         //e.preventDefault;
         axios.patch(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${movie._id}`,
             {
@@ -23,7 +24,7 @@ export class MovieView extends React.Component {
             .catch(function (error) {
                 console.log(error)
             })
-    }
+    }}}
 
     render() {
         const { movie, onBackClick } = this.props;

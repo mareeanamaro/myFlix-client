@@ -11,7 +11,11 @@ export class MovieView extends React.Component {
         const Username = localStorage.getItem('user');
         const token = localStorage.getItem('token');
 
-        //e.preventDefault;
+       e.preventDefault;
+       console.log(token);
+
+       if (token && Username) { 
+       if (token) {
         axios.patch(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${movie._id}`,
             {
                 headers: { Authorization: `Bearer ${token}` }
@@ -23,8 +27,8 @@ export class MovieView extends React.Component {
             .catch(function (error) {
                 console.log(error)
             })
-    }
-
+    }}
+}
     render() {
         const { movie, onBackClick } = this.props;
         return (

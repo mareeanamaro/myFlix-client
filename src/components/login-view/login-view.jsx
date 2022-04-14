@@ -36,7 +36,7 @@ export function LoginView(props) {
         const isReq = validate();
         if(isReq){
         /* Send a request to the server for authentication*/
-        const response = await axios.post('https://flicking-through-flicks.herokuapp.com/login', 
+        axios.post('https://flicking-through-flicks.herokuapp.com/login', 
         {
             Username: username,
             Password: password

@@ -35619,17 +35619,15 @@ function LoginView(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         const isReq = validate();
-        if (isReq) {
-            /* Send a request to the server for authentication*/ const response1 = await _axiosDefault.default.post('https://flicking-through-flicks.herokuapp.com/login', {
-                Username: username,
-                Password: password
-            }).then((response)=>{
-                const data = response.data;
-                props.onLoggedIn(data);
-            }).catch((error)=>{
-                console.log(error, 'Login Error');
-            });
-        }
+        if (isReq) /* Send a request to the server for authentication*/ _axiosDefault.default.post('https://flicking-through-flicks.herokuapp.com/login', {
+            Username: username,
+            Password: password
+        }).then((response)=>{
+            const data = response.data;
+            props.onLoggedIn(data);
+        }).catch((error)=>{
+            console.log(error, 'Login Error');
+        });
     }
     return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {
         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Container, {

@@ -35619,7 +35619,7 @@ function LoginView(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         const isReq = validate();
-        if (isReq) /* Send a request to the server for authentication*/ _axiosDefault.default.post('https://flicking-through-flicks.herokuapp.com/login', {
+        if (isReq) /* Send a request to the server for authentication*/ await _axiosDefault.default.post('https://flicking-through-flicks.herokuapp.com/login', {
             Username: username,
             Password: password
         }).then((response)=>{

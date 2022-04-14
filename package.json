@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "client-side for my flix",
   "entry": "src/index.html",
+  
   "scripts": {
     "test": "test",
     "dev": "parcel ./src/index.html"

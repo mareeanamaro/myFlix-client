@@ -46,7 +46,7 @@ export function LoginView(props) {
             props.onLoggedIn(data);
         })
         .catch(error => {
-            console.log(error, 'no such user');
+            console.log(error, 'Login Error');
         });
 }
 };

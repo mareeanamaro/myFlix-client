@@ -38,7 +38,7 @@ export class MovieView extends React.Component {
                     <Row className="g-0 mx-auto">
                         <Col className="md-4">
 
-                                <Card.Img className="m-10" src={movie.ImagePath}/>
+                                <Card.Img className="m-10 movie-img" src={movie.ImagePath}/>
                                 </Col>
                                 <Col className="md-8">
                                 <Card.Body className="m-10">

@@ -2,15 +2,6 @@ import { combineReducers } from "redux";
 
 import { SET_MOVIES, SET_FILTER } from "../actions/actions";
 
-function visibilityFilter(state = '', action) {
-    switch (action.type) {
-        case SET_FILTER:
-            return action.value;
-        default:
-            return state;
-    }
-}
-
 function movies(state = [], action) {
     switch(action.type) {
         case SET_MOVIES:
@@ -20,12 +11,40 @@ function movies(state = [], action) {
     }
 }
 
-// function moviesApp(state = {}, action ) {
-//     return {
-//         visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-//         movies: movies(state.movies, action)
-//     }
-// }
+function visibilityFilter(state = '', action) {
+    switch (action.type) {
+        case SET_FILTER:
+            return action.value;
+        default:
+            return state;
+    }
+}
+
+function user(
+    state = {
+      Username: '',
+      Password: '',
+      Email: '',
+      Birthday: '',
+      Favorites: []
+    }, 
+    action
+    ) {
+      const { field, value } = action;
+      switch (action.type) {
+        case SET_USER:
+          return value;
+  
+        case UPDATE_USER:
+          return {
+            ...state,
+            [field]: value
+          };
+  
+        default:
+          return state;
+      } 
+  }
 
 const moviesApp = combineReducers({
     visibilityFilter,

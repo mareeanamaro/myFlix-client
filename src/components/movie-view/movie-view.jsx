@@ -14,6 +14,7 @@ export class MovieView extends React.Component {
             if (token) {
         //e.preventDefault;
         axios.patch(`https://flicking-through-flicks.herokuapp.com/users/${Username}/movies/${movie._id}`,
+        {},
             {
                 headers: { Authorization: `Bearer ${token}` }
             })

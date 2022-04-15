@@ -31,18 +31,6 @@
   background-color: #1da07b !important;
   border-color: white !important;
 }
-.open-link {
-  color: #2DBC94 !important;
-}
-
-.title {
-  font-family: "Source Sans Pro", sans-serif !important;
-  font-weight: 600 !important;
-}
-
-.description {
-  font-size: 1.2rem !important;
-}
 body {
   font-family: "Source Sans Pro", sans-serif;
 }
@@ -71,6 +59,18 @@ body {
 }
 body {
   background-color: beige !important;
+}
+.open-link {
+  color: #2DBC94 !important;
+}
+
+.title {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.description {
+  font-size: 1.2rem !important;
 }
 body {
   background-color: #f5f5ec !important;

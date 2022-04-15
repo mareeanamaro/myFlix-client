@@ -31,12 +31,13 @@ export function LoginView(props) {
         return isReq;
     }
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         const isReq = validate();
         if(isReq){
         /* Send a request to the server for authentication*/
-        await axios.post('https://flicking-through-flicks.herokuapp.com/login', 
+        axios.post('https://flicking-through-flicks.herokuapp.com/login',
+        {}, 
         {
             Username: username,
             Password: password

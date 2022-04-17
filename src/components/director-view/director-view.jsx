@@ -1,8 +1,6 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
+import { Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../director-view/director-view.scss';
-
-import { Link } from 'react-router-dom';
 
 export class DirectorView extends React.Component {
 

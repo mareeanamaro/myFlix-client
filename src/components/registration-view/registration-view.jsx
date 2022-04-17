@@ -2,10 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './registration-view.scss';
 
+let mapStateToProps = (state) => {
+    return {
+      user: state.user
+    }
+  }
+
 export function RegistrationView(props) {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -128,3 +136,5 @@ export function RegistrationView(props) {
         </Container>
     );
 }
+
+export default connect (mapStateToProps) (RegistrationView);

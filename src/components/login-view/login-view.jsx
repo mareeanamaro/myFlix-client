@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import '../login-view/login-view.scss';
 import {Form, Button, Container, Row, Col , CardGroup, Card} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+
 
 export function LoginView(props) {
     const [username, setUsername ] = useState('');
@@ -31,13 +35,13 @@ export function LoginView(props) {
         return isReq;
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const isReq = validate();
         if(isReq){
         /* Send a request to the server for authentication*/
-        axios.post('https://flicking-through-flicks.herokuapp.com/login',
-        {}, 
+        await axios.post('https://flicking-through-flicks.herokuapp.com/login',
+ 
         {
             Username: username,
             Password: password
@@ -51,8 +55,6 @@ export function LoginView(props) {
         });
 }
 };
-
-    
     
 return (
     <>

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { setUser, updateUser } from '../../actions/actions';
+import { setUser } from '../../actions/actions';
 import { connect } from 'react-redux';
 
 import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
@@ -16,7 +16,16 @@ export class ProfileView extends React.Component {
 
   // first initialise the state of the object
     
-  
+  constructor() {
+    super();
+
+    this.state = {
+      Username: null,
+      Password: null,
+      Email: null,
+      Birthday: null,
+      FavoriteMovies: []}
+}
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -29,8 +38,7 @@ export class ProfileView extends React.Component {
   }
 
   // get the user data to display
-  getUserData(token) {
-  
+  getUserData = (token) => {
     let Username = localStorage.getItem('user');
     axios.get(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
       {
@@ -139,8 +147,12 @@ export class ProfileView extends React.Component {
 
   render() {
 
-    const { FavoriteMovies, setBirthday, setEmail, setPassword, setUsername, updateUserData } = this.state;
-    const { Username, Email } = this.props;
+
+    const { movies } = this.props;
+    const { Username, Email, Birthday, FavoriteMovies, setBirthday, setEmail, setPassword, setUsername, updateUserData } = this.state;
+
+
+    console.log(Username);
 
     if (!Username) {
       return null;
@@ -150,9 +162,8 @@ export class ProfileView extends React.Component {
       <>
         <Container>
           <UserInfo username={Username} email={Email} />
-
-          <UpdateInfo user={this.state} setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData} />
-          <FavMovies movies={this.props.movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav} />
+          <UpdateInfo username={Username} setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData} />
+          <FavMovies movies={movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav} />
           <Row className="m-2 mx-auto">
 
             <Col>
@@ -167,7 +178,8 @@ export class ProfileView extends React.Component {
 }
 
 let mapStateToProps = state => {
-  return { movies: state.movies, user: state.user }
+  return { movies: state.movies, 
+    user: state.user }
 }
 
-export default connect(mapStateToProps, { setUser, updateUser })(ProfileView);
+export default connect(mapStateToProps, { setUser })(ProfileView);

@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../profile-view/profile-view.scss';
 
-function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData, user }) {
+function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData, Username, Email, Birthday }) {
 
     return (
         <>
@@ -19,7 +19,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                             type="text"
                                             name="Username"
                                             placeholder='Enter your desired username'
-                                            value={user.Username}
+                                            value={Username}
                                             onChange={e => setUsername(e)}
                                         />
                                     </Form.Group>
@@ -39,7 +39,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         <Form.Label>Email:</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            value={user.Email}
+                                            value={Email}
                                             onChange={e => setEmail(e)}
                                             placeholder='Enter your email address' />
                                     </Form.Group>
@@ -49,7 +49,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         <Form.Control
                                             type="date"
                                             name="birthday"
-                                            value={user.Birthday}
+                                            value={Birthday}
                                             onChange={e => setBirthday(e)}
                                         />
 

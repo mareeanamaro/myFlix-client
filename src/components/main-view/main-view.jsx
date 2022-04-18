@@ -9,7 +9,7 @@ import { setMovies, setUser } from '../../actions/actions';
 
 // components
 import { Menubar } from '../nav-bar/nav-bar';
-import LoginView from '../login-view/login-view';
+import { LoginView } from '../login-view/login-view';
 import RegistrationView from '../registration-view/registration-view';
 import MoviesList from '../movies-list/movies-list';
 import { MovieView } from '../movie-view/movie-view';

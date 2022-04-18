@@ -25547,7 +25547,6 @@ var _actions = require("../../actions/actions");
 // components
 var _navBar = require("../nav-bar/nav-bar");
 var _loginView = require("../login-view/login-view");
-var _loginViewDefault = parcelHelpers.interopDefault(_loginView);
 var _registrationView = require("../registration-view/registration-view");
 var _registrationViewDefault = parcelHelpers.interopDefault(_registrationView);
 var _moviesList = require("../movies-list/movies-list");
@@ -25618,7 +25617,7 @@ class MainView extends _reactDefault.default.Component {
                                 path: "/",
                                 render: ()=>{
                                     if (!user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginViewDefault.default, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
                                             onLoggedIn: (user)=>this.onLoggedIn(user)
                                         }, void 0, false, void 0, void 0)
                                     }, void 0, false, void 0, void 0);
@@ -25655,7 +25654,7 @@ class MainView extends _reactDefault.default.Component {
                                 path: "/login",
                                 render: ()=>{
                                     return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginViewDefault.default, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
                                             onLoggedIn: this.onLoggedIn
                                         }, void 0, false, void 0, void 0)
                                     }, void 0, false, void 0, void 0);

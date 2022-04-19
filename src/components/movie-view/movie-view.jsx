@@ -23,7 +23,7 @@ export class MovieView extends React.Component {
             })
             .then(() => {
                 alert('Movie added to your favorites.');
-                window.open('/profile', '_self');
+                
             })
             .catch(function (error) {
                 console.log(error)
@@ -68,7 +68,15 @@ export class MovieView extends React.Component {
 
 MovieView.propTypes = {
     movie: propTypes.shape({
-        Title: propTypes.string
+        Title: propTypes.string,
+        Description: propTypes.string,
+        ImageURL: propTypes.string,
+        Director: propTypes.shape({
+            Name: propTypes.string
+        }),
+        Genre: propTypes.shape({
+            Name: propTypes.string,
+        }),
     }).isRequired,
     onBackClick: propTypes.func.isRequired
-};
+}

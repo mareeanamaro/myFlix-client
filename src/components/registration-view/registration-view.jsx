@@ -115,19 +115,21 @@ export function RegistrationView(props) {
                                     <Form.Group controlId="updateBirthday">
                                         <Form.Label>Birthday:</Form.Label>
                                         <Form.Control
-                                            type="date"
+                                            type="birthday"
                                             name="birthday"
                                             value={birthday}
                                             onChange={e => setBirthday(e.target.value)}
                                             required
                                         />
                                     </Form.Group>
-                                    <Button variant="primary" className ="submit-button" type="submit" onClick={handleSubmit}>Register</Button>
-                                    <Link to="/login">
-                                        <Button variant="secondary">Go to Login Page</Button>
-                                    </Link>
-
+                                    <div className='text-center'>
+                                    <Button variant="primary" className ="submit-button mt-1" type="submit" onClick={handleSubmit}>Register</Button>
+                                    </div>
                                 </Form>
+                                <Card.Text className="mt-5">Already have an account?</Card.Text>
+                                <Card.Text><Link to="/login">
+                                        <Button variant="secondary">Go to Login Page</Button>
+                                    </Link></Card.Text>                        
                             </Card.Body>
                         </Card>
                     </CardGroup>

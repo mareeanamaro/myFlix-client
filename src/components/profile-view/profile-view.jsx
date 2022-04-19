@@ -143,8 +143,6 @@ export class ProfileView extends React.Component {
     })
   }
 
-
-
   render() {
 
 
@@ -161,11 +159,10 @@ export class ProfileView extends React.Component {
     return (
       <>
         <Container>
-          <UserInfo username={Username} email={Email} />
+          <UserInfo username={Username} email={Email} birthday={Birthday}/>
           <UpdateInfo username={Username} setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData} />
           <FavMovies movies={movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav} />
           <Row className="m-2 mx-auto">
-
             <Col>
               <div>Here lies danger!</div>
               <Button variant="danger" onClick={(e) => this.deleteUser(e)}>Delete your account</Button></Col></Row>

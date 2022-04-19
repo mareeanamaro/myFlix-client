@@ -11,7 +11,6 @@ const mapStateToProps = state => {
     return {visibilityFilter};
 };
 
-
 function MoviesList(props) {
     const { movies, visibilityFilter } = props;
     let filteredMovies = movies;

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
-import '../director-view/director-view.scss';
+import propTypes from 'prop-types';
+import { Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
+import '../genre-view/genre-view.scss';
 
 export class GenreView extends React.Component {
 
@@ -20,7 +21,7 @@ export class GenreView extends React.Component {
                                     </Card.Body>
                                 </Card>
                             </CardGroup>
-                            <Button onClick={() => { onBackClick() }}>Back</Button>
+                            <Button className='buttons-genre' onClick={() => { onBackClick() }}>Back</Button>
                         </Col>
                     </Row>
                     
@@ -28,3 +29,10 @@ export class GenreView extends React.Component {
             </>)
     }
 }
+
+GenreView.proptypes = {
+    Genre: propTypes.shape({
+      Name: propTypes.string,
+      Description: propTypes.string
+    }).isRequired,
+  };

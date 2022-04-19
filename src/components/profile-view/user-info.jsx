@@ -1,9 +1,9 @@
 import React from "react";
+import propTypes from 'prop-types';
+import { Row, Col, Card } from 'react-bootstrap';
 
-import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
 
-
-function UserInfo({ email, username }) {
+function UserInfo({ email, username, birthday }) {
 
     return (
         <Row className="m-2 mx-auto">
@@ -17,6 +17,9 @@ function UserInfo({ email, username }) {
                         <Card.Text>
                             <b> Email:</b> {email}
                         </Card.Text>
+                        <Card.Text>
+                            <b> Birthday:</b> {birthday}
+                        </Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
@@ -25,3 +28,9 @@ function UserInfo({ email, username }) {
 }
 
 export default UserInfo;
+
+UserInfo.propTypes = {
+    username: propTypes.string,
+    email: propTypes.string,
+    birthday: propTypes.string
+}

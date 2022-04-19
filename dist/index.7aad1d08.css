@@ -25,6 +25,7 @@
 .submit-button {
   background-color: #2DBC94 !important;
   border-color: #2DBC94 !important;
+  font-weight: 600 !important;
 }
 
 .submit-button:hover {
@@ -61,8 +62,19 @@ body {
 .movie-img {
   min-height: fit-content !important;
 }
+.buttons-genre {
+  background-color: #2DBC94 !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
 .label {
   font-weight: bold;
+}
+
+.buttons-director {
+  background-color: #2DBC94 !important;
+  border: none !important;
+  font-weight: 600 !important;
 }
 .button-profile {
   background-color: #2DBC94 !important;

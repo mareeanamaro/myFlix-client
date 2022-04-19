@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from "prop-types";
 import { Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../director-view/director-view.scss';
 
@@ -22,7 +23,7 @@ export class DirectorView extends React.Component {
                                     </Card.Body>
                                 </Card>
                             </CardGroup>
-                            <Button onClick={() => { onBackClick() }}>Back</Button>
+                            <Button className="buttons-director" onClick={() => { onBackClick() }}>Back</Button>
                         </Col>
                     </Row>
                     
@@ -30,3 +31,12 @@ export class DirectorView extends React.Component {
             </>)
     }
 }
+
+DirectorView.proptypes = {
+    Director: propTypes.shape({
+      Name: propTypes.string,
+      Bio: propTypes.string,
+      Birth: propTypes.number,
+      Death: propTypes.number,
+    }).isRequired,
+  };

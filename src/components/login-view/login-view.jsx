@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import propTypes, { string } from 'prop-types';
+import propTypes from 'prop-types';
 
 import '../login-view/login-view.scss';
 import { Form, Button, Container, Row, Col, CardGroup, Card } from 'react-bootstrap';
@@ -35,13 +35,12 @@ export function LoginView(props) {
         return isReq;
     }
 
-    async function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isReq = validate();
         if (isReq) {
             /* Send a request to the server for authentication*/
-            await axios.post('https://flicking-through-flicks.herokuapp.com/login',
-
+               return axios.post('https://flicking-through-flicks.herokuapp.com/login',
                 {
                     Username: username,
                     Password: password
@@ -90,7 +89,7 @@ export function LoginView(props) {
                                             {passwordErr && <p>{passwordErr}</p>}
                                         </Form.Group>
                                         <div className='text-center'>
-                                            <Button className="login-submit-button mt-1" type="submit" onClick={handleSubmit}>Log In</Button>
+                                            <Button className="login-submit-button mt-1" type="button" onClick={handleSubmit}>Log In</Button>
                                         </div>
                                         <Card.Text className="mt-5">Already have an account?</Card.Text>
                                         <Card.Text><Link to="/register">

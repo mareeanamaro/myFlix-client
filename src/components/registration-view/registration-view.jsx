@@ -8,9 +8,9 @@ import './registration-view.scss';
 
 let mapStateToProps = (state) => {
     return {
-      user: state.user
+        user: state.user
     }
-  }
+}
 
 export function RegistrationView(props) {
 
@@ -41,35 +41,37 @@ export function RegistrationView(props) {
         return isReq;
     }
 
-    async function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
         /* Send a request to the server for authentication  (to be added later)*/
         const isReq = validate();
         if (isReq) {
-            const response = await axios.post('https://flicking-through-flicks.herokuapp.com/users/', {
+            return axios.post('https://flicking-through-flicks.herokuapp.com/users/', {
                 Username: username,
                 Password: password,
                 Email: email,
                 Birthday: birthday
             })
-            if (response.status === 201) {
-
-                const loginResponse = await axios.post("https://flicking-through-flicks.herokuapp.com/login", {
-                    Username: username,
-                    Password: password
-                })
-                console.log(loginResponse);
-                if (loginResponse.status === 200) {
-                    const data = loginResponse.data;
-                    props.onLoggedIn(data);
-                }
-            }
-            switch(response.status) {
-                case 201: {} break;
-                case 400: {} break;
-                case 422: {} break;
-            }
-        }}
+                .then(response => {
+                    if (response.status === 201) {
+                        return axios.post("https://flicking-through-flicks.herokuapp.com/login", {
+                            Username: username,
+                            Password: password
+                        }).then(loginResponse => {
+                            if (loginResponse.status === 200) {
+                                const data = loginResponse.data;
+                                return props.onLoggedIn(data);
+                            }
+                        });
+                    }
+                    switch (response.status) {
+                        case 201: { } break;
+                        case 400: { } break;
+                        case 422: { } break;
+                    }
+                });
+        }
+    }
 
     return (
         <Container>
@@ -123,13 +125,13 @@ export function RegistrationView(props) {
                                         />
                                     </Form.Group>
                                     <div className='text-center'>
-                                    <Button variant="primary" className ="submit-button mt-1" type="submit" onClick={handleSubmit}>Register</Button>
+                                        <Button variant="primary" className="submit-button mt-1" type="button" onClick={handleSubmit}>Register</Button>
                                     </div>
                                 </Form>
                                 <Card.Text className="mt-5">Already have an account?</Card.Text>
                                 <Card.Text><Link to="/login">
-                                        <Button variant="secondary">Go to Login Page</Button>
-                                    </Link></Card.Text>                        
+                                    <Button variant="secondary">Go to Login Page</Button>
+                                </Link></Card.Text>
                             </Card.Body>
                         </Card>
                     </CardGroup>
@@ -139,4 +141,4 @@ export function RegistrationView(props) {
     );
 }
 
-export default connect (mapStateToProps) (RegistrationView);
+export default connect(mapStateToProps)(RegistrationView);

@@ -1,42 +1,34 @@
 import React from 'react';
 import axios from 'axios';
 
-import { setUser } from '../../actions/actions';
 import { connect } from 'react-redux';
+import { setUser, setUserObject, updateUser } from '../../actions/actions';
 
-import { Form, Button, Container, Row, Col, CardGroup, Card, AccordionCollapse } from 'react-bootstrap';
 
 import UserInfo from './user-info';
 import FavMovies from './favorite-movies';
 import UpdateInfo from './update-user';
 
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import './profile-view.scss';
 
-export class ProfileView extends React.Component {
+class ProfileView extends React.Component {
 
-  // first initialise the state of the object
-    
   constructor() {
     super();
-
-    this.state = {
-      Username: null,
-      Password: null,
-      Email: null,
-      Birthday: null,
-      FavoriteMovies: []}
 }
 
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.setState({
+      this.props.setUser({
         user: localStorage.getItem('user')
       });
       this.getUserData(token);
     }
   }
 
+  
   // get the user data to display
   getUserData = (token) => {
     let Username = localStorage.getItem('user');
@@ -45,7 +37,7 @@ export class ProfileView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        this.setState({
+        this.props.setUserObject({
           Username: response.data.Username,
           Password: response.data.Password,
           Email: response.data.Email,
@@ -62,29 +54,28 @@ export class ProfileView extends React.Component {
   updateUserData = (e) => {
     const token = localStorage.getItem('token');
     let Username = localStorage.getItem('user');
-
+    
     e.preventDefault;
     axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
       {
-        Username: this.state.Username,
-        Password: this.state.Password,
-        Email: this.state.Email,
-        Birthday: this.state.Birthday
+        Username: this.props.updateUser.Username,
+        Password: this.props.updateUser.Password,
+        Email: this.props.updateUser.Email,
+        Birthday: this.props.updateUser.Birthday
       },
       {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then((response) => {
-        this.setState({
+        this.props.updateUser({
           Username: response.data.Username,
           Password: response.data.Password,
           Email: response.data.Email,
           Birthday: response.data.Birthday
         });
-
-        localStorage.setItem('user', this.state.Username);
+        
+        localStorage.setItem('user', response.data.Username);
         alert('Profile update');
-        window.open('/profile', '_self');
       }
       )
       .catch(function (error) {
@@ -115,43 +106,40 @@ export class ProfileView extends React.Component {
       })
   }
 
-  setUsername = (e) => {
-    const { value } = e.target;
-    this.setState({
-      Username: value
-    })
-  }
+  // setUsername = (e) => {
+  //   const { value } = e.target;
+  //   this.props.updateUser({
+  //     Username: value
+  //   })
+  // }
 
-  setPassword = (e) => {
-    const { value } = e.target;
-    this.setState({
-      Password: value
-    })
-  }
+  // setPassword = (e) => {
+  //   const { value } = e.target;
+  //   this.props.updateUser({
+  //     Password: value
+  //   })
+  // }
 
-  setEmail = (e) => {
-    const { value } = e.target;
-    this.setState({
-      Email: value
-    })
-  }
+  // setEmail = (e) => {
+  //   const { value } = e.target;
+  //   this.props.updateUser({
+  //     Email: value
+  //   })
+  // }
 
-  setBirthday = (e) => {
-    const { value } = e.target;
-    this.setState({
-      Birthday: value
-    })
-  }
+  // setBirthday = (e) => {
+  //   const { value } = e.target;
+  //   this.props.updateUser({
+  //     Birthday: value
+  //   })
+  // }
 
   render() {
 
 
     const { movies } = this.props;
-    const { Username, Email, Birthday, FavoriteMovies, setBirthday, setEmail, setPassword, setUsername, updateUserData } = this.state;
-
-
-    console.log(Username);
-
+    const { Username, Email, Birthday, FavoriteMovies} = this.props.userObject;
+    
     if (!Username) {
       return null;
     }
@@ -175,8 +163,10 @@ export class ProfileView extends React.Component {
 }
 
 let mapStateToProps = state => {
-  return { movies: state.movies, 
-    user: state.user }
+  return { 
+    movies: state.movies, 
+    user: state.userObject.Username, 
+    userObject: state.userObject }
 }
 
-export default connect(mapStateToProps, { setUser })(ProfileView);
+export default connect(mapStateToProps, { setUser, setUserObject, updateUser })(ProfileView);

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "client-side for my flix",
   "entry": "src/index.html",
-  
   "scripts": {
     "test": "test",
     "dev": "parcel ./src/index.html"
@@ -29,10 +28,12 @@
     "react-redux": "^7.2.8",
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.2",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "redux-actions": "^2.6.5"
   },
   "dependencies": {
     "@parcel/core": "^2.3.2",
     "parcel": "^2.0.0-nightly.1013"
+   
   }
 }

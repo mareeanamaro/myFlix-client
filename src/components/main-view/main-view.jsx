@@ -4,7 +4,7 @@ import React from 'react';
 import axios from 'axios';
 
 //routing
-import { BrowserRouter as Router, Route, } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 
 //redux actions
@@ -19,9 +19,9 @@ import MoviesList from '../movies-list/movies-list';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
-import { ProfileView } from '../profile-view/profile-view.jsx';
+import ProfileView from '../profile-view/profile-view.jsx';
 
-//css
+//styling
 import { Container, Row, Col } from 'react-bootstrap';
 import '../main-view/main-view.scss';
 

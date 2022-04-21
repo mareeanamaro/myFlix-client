@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../profile-view/profile-view.scss';
 
-function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUserData, Username, Email, Birthday }) {
+function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
 
     return (
         <>
@@ -20,7 +20,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                             name="Username"
                                             placeholder='Enter your desired username'
                                             value={Username}
-                                            onChange={e => setUsername(e)}
+                                           
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formPassword">
@@ -28,8 +28,6 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         <Form.Control
                                             type="password"
                                             placeholder='Your password must be 8 or more characters long'
-
-                                            onChange={e => setPassword(e)}
                                             minLength={8}
 
                                         />
@@ -40,7 +38,6 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                         <Form.Control
                                             type="text"
                                             value={Email}
-                                            onChange={e => setEmail(e)}
                                             placeholder='Enter your email address' />
                                     </Form.Group>
 
@@ -50,8 +47,7 @@ function UpdateInfo({ setUsername, setPassword, setEmail, setBirthday, updateUse
                                             type="date"
                                             name="birthday"
                                             value={Birthday}
-                                            onChange={e => setBirthday(e)}
-                                        />
+                                            />
 
                                     </Form.Group>
                                     <Button className="button-profile" type="button" onClick={updateUserData}>Update Info</Button>

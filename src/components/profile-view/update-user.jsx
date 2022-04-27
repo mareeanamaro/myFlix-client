@@ -2,9 +2,9 @@ import React from "react";
 import { Form, Button, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../profile-view/profile-view.scss';
 
-function UpdateInfo({  updateUserData, userObject, changeHandler }) {
+function UpdateInfo({ updateUserData, userObject, changeHandler }) {
 
-    const { Username, Password, Email, Birthday } = userObject;
+    const { Username, Email, Birthday } = userObject;
 
     return (
         <>
@@ -40,9 +40,9 @@ function UpdateInfo({  updateUserData, userObject, changeHandler }) {
                                         <Form.Control
                                             type="text"
                                             value={Email}
-                                            placeholder='Enter your email address' 
+                                            placeholder='Enter your email address'
                                             onChange={(e) => changeHandler({ ...userObject, Email: e.target.value })}
-                                            />
+                                        />
                                     </Form.Group>
 
                                     <Form.Group controlId="updateBirthday">
@@ -52,7 +52,7 @@ function UpdateInfo({  updateUserData, userObject, changeHandler }) {
                                             name="birthday"
                                             value={Birthday}
                                             onChange={(e) => changeHandler({ ...userObject, Birthday: e.target.value })}
-                                            />
+                                        />
 
                                     </Form.Group>
                                     <Button className="button-profile" type="button" onClick={updateUserData}>Update Info</Button>

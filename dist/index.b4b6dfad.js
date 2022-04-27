@@ -37527,30 +37527,6 @@ class ProfileView extends _reactDefault.default.Component {
             console.log(error);
         });
     }
-    // setUsername = (e) => {
-    //   const { value } = e.target;
-    //   this.props.updateUser({
-    //     Username: value
-    //   })
-    // }
-    // setPassword = (e) => {
-    //   const { value } = e.target;
-    //   this.props.updateUser({
-    //     Password: value
-    //   })
-    // }
-    // setEmail = (e) => {
-    //   const { value } = e.target;
-    //   this.props.updateUser({
-    //     Email: value
-    //   })
-    // }
-    // setBirthday = (e) => {
-    //   const { value } = e.target;
-    //   this.props.updateUser({
-    //     Birthday: value
-    //   })
-    // }
     render() {
         const { movies  } = this.props;
         const { Username , Email , Birthday , FavoriteMovies  } = this.props.userObject;
@@ -37564,7 +37540,7 @@ class ProfileView extends _reactDefault.default.Component {
                         birthday: Birthday
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 150,
+                        lineNumber: 122,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateUserDefault.default, {
@@ -37578,7 +37554,7 @@ class ProfileView extends _reactDefault.default.Component {
                             })
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 151,
+                        lineNumber: 123,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_favoriteMoviesDefault.default, {
@@ -37587,7 +37563,7 @@ class ProfileView extends _reactDefault.default.Component {
                         removeFav: this.removeFav
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 157,
+                        lineNumber: 129,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -37598,7 +37574,7 @@ class ProfileView extends _reactDefault.default.Component {
                                     children: "Here lies danger!"
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 160,
+                                    lineNumber: 132,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -37608,24 +37584,24 @@ class ProfileView extends _reactDefault.default.Component {
                                     children: "Delete your account"
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 161,
+                                    lineNumber: 133,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 159,
+                            lineNumber: 131,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 158,
+                        lineNumber: 130,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 149,
+                lineNumber: 121,
                 columnNumber: 9
             }, this)
         }, void 0, false);

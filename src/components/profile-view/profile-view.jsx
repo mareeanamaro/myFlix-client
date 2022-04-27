@@ -16,7 +16,7 @@ class ProfileView extends React.Component {
 
   constructor() {
     super();
-}
+  }
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -28,7 +28,7 @@ class ProfileView extends React.Component {
     }
   }
 
-  
+
   // get the user data to display
   getUserData = (token) => {
     let Username = localStorage.getItem('user');
@@ -49,39 +49,6 @@ class ProfileView extends React.Component {
         console.log(error);
       });
   }
-
-  // function to update user data
-  // updateUserData = (e) => {
-  //   const token = localStorage.getItem('token');
-  //   let Username = localStorage.getItem('user');
-    
-  //   e.preventDefault;
-  //   axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
-  //     {
-  //       Username: this.props.updateUser.Username,
-  //       Password: this.props.updateUser.Password,
-  //       Email: this.props.updateUser.Email,
-  //       Birthday: this.props.updateUser.Birthday
-  //     },
-  //     {
-  //       headers: { Authorization: `Bearer ${token}` }
-  //     })
-  //     .then((response) => {
-  //       this.props.updateUser({
-  //         Username: response.data.Username,
-  //         Password: response.data.Password,
-  //         Email: response.data.Email,
-  //         Birthday: response.data.Birthday
-  //       });
-        
-  //       localStorage.setItem('user', response.data.Username);
-  //       alert('Profile update');
-  //     }
-  //     )
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     })
-  // };
 
   // function to delete the user 
   deleteUser(e) {
@@ -106,40 +73,11 @@ class ProfileView extends React.Component {
       })
   }
 
-  // setUsername = (e) => {
-  //   const { value } = e.target;
-  //   this.props.updateUser({
-  //     Username: value
-  //   })
-  // }
-
-  // setPassword = (e) => {
-  //   const { value } = e.target;
-  //   this.props.updateUser({
-  //     Password: value
-  //   })
-  // }
-
-  // setEmail = (e) => {
-  //   const { value } = e.target;
-  //   this.props.updateUser({
-  //     Email: value
-  //   })
-  // }
-
-  // setBirthday = (e) => {
-  //   const { value } = e.target;
-  //   this.props.updateUser({
-  //     Birthday: value
-  //   })
-  // }
-
   render() {
 
-
     const { movies } = this.props;
-    const { Username, Email, Birthday, FavoriteMovies} = this.props.userObject;
-    
+    const { Username, Email, Birthday, FavoriteMovies } = this.props.userObject;
+
     if (!Username) {
       return null;
     }
@@ -147,13 +85,13 @@ class ProfileView extends React.Component {
     return (
       <>
         <Container>
-          <UserInfo username={Username} email={Email} birthday={Birthday}/>
+          <UserInfo username={Username} email={Email} birthday={Birthday} />
           <UpdateInfo userObject={this.props.userObject} changeHandler={this.props.setUserObject} updateUserData={() => this.props.profileUpdate({
-                Username: this.props.userObject.Username,
-                Password: this.props.userObject.Password,
-                Email: this.props.userObject.Email,
-                Birthday: this.props.userObject.Birthday
-              })} />
+            Username: this.props.userObject.Username,
+            Password: this.props.userObject.Password,
+            Email: this.props.userObject.Email,
+            Birthday: this.props.userObject.Birthday
+          })} />
           <FavMovies movies={movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav} />
           <Row className="m-2 mx-auto">
             <Col>
@@ -168,10 +106,11 @@ class ProfileView extends React.Component {
 }
 
 let mapStateToProps = state => {
-  return { 
-    movies: state.movies, 
-    user: state.userObject.Username, 
-    userObject: state.userObject }
+  return {
+    movies: state.movies,
+    user: state.userObject.Username,
+    userObject: state.userObject
+  }
 }
 
 export default connect(mapStateToProps, { setUser, setUserObject, profileUpdate })(ProfileView);

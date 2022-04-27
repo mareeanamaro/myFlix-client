@@ -1,6 +1,8 @@
 
 //define action types and store them in variables
 
+import axios from "axios";
+
 export const SET_MOVIES = 'SET_MOVIES';
 export const SET_FILTER = 'SET_FILTER';
 export const SET_USER = 'SET_USER';
@@ -33,9 +35,29 @@ export function setUserObject(value = {Username: '', Password: '', Email: '', Bi
   }
 }
 
-export function updateUser(value = {Username: '', Password: '', Email: '', Birthday: '', FavoriteMovies: [] },
-  field = null) {
-  return {
-    type: UPDATE_USER,
-     value, field }
+// export function updateUser(value = {Username: '', Password: '', Email: '', Birthday: '', FavoriteMovies: [] },
+//   field = null) {
+//   return {
+//     type: UPDATE_USER,
+//      value, field }
+//   }
+
+// action with the API call
+  export const profileUpdate = profile => dispatch => {
+    const Username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    delete profile.Password;
+
+    return axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
+    profile,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .then((response) => {
+      localStorage.setItem('user', response.data.Username);
+      alert('Profile update');
+      dispatch(setUserObject(profile));
+      
+    });
   }

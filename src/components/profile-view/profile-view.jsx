@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import { connect } from 'react-redux';
-import { setUser, setUserObject, updateUser } from '../../actions/actions';
+import { setUser, setUserObject, profileUpdate } from '../../actions/actions';
 
 
 import UserInfo from './user-info';
@@ -32,6 +32,7 @@ class ProfileView extends React.Component {
   // get the user data to display
   getUserData = (token) => {
     let Username = localStorage.getItem('user');
+    console.log(Username);
     axios.get(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
       {
         headers: { Authorization: `Bearer ${token}` }
@@ -39,7 +40,6 @@ class ProfileView extends React.Component {
       .then(response => {
         this.props.setUserObject({
           Username: response.data.Username,
-          Password: response.data.Password,
           Email: response.data.Email,
           Birthday: response.data.Birthday,
           FavoriteMovies: response.data.FavoriteMovies
@@ -51,37 +51,37 @@ class ProfileView extends React.Component {
   }
 
   // function to update user data
-  updateUserData = (e) => {
-    const token = localStorage.getItem('token');
-    let Username = localStorage.getItem('user');
+  // updateUserData = (e) => {
+  //   const token = localStorage.getItem('token');
+  //   let Username = localStorage.getItem('user');
     
-    e.preventDefault;
-    axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
-      {
-        Username: this.props.updateUser.Username,
-        Password: this.props.updateUser.Password,
-        Email: this.props.updateUser.Email,
-        Birthday: this.props.updateUser.Birthday
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then((response) => {
-        this.props.updateUser({
-          Username: response.data.Username,
-          Password: response.data.Password,
-          Email: response.data.Email,
-          Birthday: response.data.Birthday
-        });
+  //   e.preventDefault;
+  //   axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
+  //     {
+  //       Username: this.props.updateUser.Username,
+  //       Password: this.props.updateUser.Password,
+  //       Email: this.props.updateUser.Email,
+  //       Birthday: this.props.updateUser.Birthday
+  //     },
+  //     {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     })
+  //     .then((response) => {
+  //       this.props.updateUser({
+  //         Username: response.data.Username,
+  //         Password: response.data.Password,
+  //         Email: response.data.Email,
+  //         Birthday: response.data.Birthday
+  //       });
         
-        localStorage.setItem('user', response.data.Username);
-        alert('Profile update');
-      }
-      )
-      .catch(function (error) {
-        console.log(error)
-      })
-  };
+  //       localStorage.setItem('user', response.data.Username);
+  //       alert('Profile update');
+  //     }
+  //     )
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     })
+  // };
 
   // function to delete the user 
   deleteUser(e) {
@@ -148,7 +148,12 @@ class ProfileView extends React.Component {
       <>
         <Container>
           <UserInfo username={Username} email={Email} birthday={Birthday}/>
-          <UpdateInfo username={Username} setUsername={this.setUsername} setPassword={this.setPassword} setEmail={this.setEmail} setBirthday={this.setBirthday} updateUserData={this.updateUserData} />
+          <UpdateInfo userObject={this.props.userObject} changeHandler={this.props.setUserObject} updateUserData={() => this.props.profileUpdate({
+                Username: this.props.userObject.Username,
+                Password: this.props.userObject.Password,
+                Email: this.props.userObject.Email,
+                Birthday: this.props.userObject.Birthday
+              })} />
           <FavMovies movies={movies} favoriteMovieList={FavoriteMovies} removeFav={this.removeFav} />
           <Row className="m-2 mx-auto">
             <Col>
@@ -169,4 +174,4 @@ let mapStateToProps = state => {
     userObject: state.userObject }
 }
 
-export default connect(mapStateToProps, { setUser, setUserObject, updateUser })(ProfileView);
+export default connect(mapStateToProps, { setUser, setUserObject, profileUpdate })(ProfileView);

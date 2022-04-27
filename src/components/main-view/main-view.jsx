@@ -70,6 +70,7 @@ class MainView extends React.Component {
                 console.log(error);
             });
     }
+    
     render() {
         let { movies } = this.props;
         let user = localStorage.getItem('user');

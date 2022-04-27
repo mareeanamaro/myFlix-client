@@ -34,7 +34,7 @@ function FavMovies({ favoriteMovieList, movies, removeFav }) {
             </Row>
             <Row className="mx-auto w-100">
 
-                {favoriteMovieList.map((movieID) => {
+                {favoriteMovieList && favoriteMovieList.map((movieID) => {
                     const [movie] = movies.filter(movie => movie._id === movieID);
                     return movie && (
                         <Col className="align-items-space-between d-flex md-3" md={6} lg={3} key={movie._id}>

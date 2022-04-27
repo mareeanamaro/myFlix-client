@@ -1,16 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+// import { devToolsEnhancer } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import moviesApp from './reducers/reducers';
+
 
 import MainView from './components/main-view/main-view';
 
 import Container from 'react-bootstrap/Container';
 import './index.scss';
 
-const myFlixStore = createStore(moviesApp, devToolsEnhancer());
+
+const configureStore = (preloadedState) => {
+  const store = createStore(
+    moviesApp,
+    preloadedState,
+    compose(
+      applyMiddleware(thunk, createLogger()),
+    ),
+  );
+
+  return store;
+};
+
+// const myFlixStore = createStore(moviesApp, devToolsEnhancer());
+
+const myFlixStore = configureStore();
+
 
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {

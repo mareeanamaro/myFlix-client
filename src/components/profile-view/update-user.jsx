@@ -2,7 +2,9 @@ import React from "react";
 import { Form, Button, Row, Col, CardGroup, Card } from 'react-bootstrap';
 import '../profile-view/profile-view.scss';
 
-function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
+function UpdateInfo({  updateUserData, userObject, changeHandler }) {
+
+    const { Username, Password, Email, Birthday } = userObject;
 
     return (
         <>
@@ -20,7 +22,7 @@ function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
                                             name="Username"
                                             placeholder='Enter your desired username'
                                             value={Username}
-                                           
+                                            onChange={(e) => changeHandler({ ...userObject, Username: e.target.value })}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formPassword">
@@ -29,7 +31,7 @@ function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
                                             type="password"
                                             placeholder='Your password must be 8 or more characters long'
                                             minLength={8}
-
+                                            onChange={(e) => changeHandler({ ...userObject, Password: e.target.value })}
                                         />
 
                                     </Form.Group>
@@ -38,7 +40,9 @@ function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
                                         <Form.Control
                                             type="text"
                                             value={Email}
-                                            placeholder='Enter your email address' />
+                                            placeholder='Enter your email address' 
+                                            onChange={(e) => changeHandler({ ...userObject, Email: e.target.value })}
+                                            />
                                     </Form.Group>
 
                                     <Form.Group controlId="updateBirthday">
@@ -47,6 +51,7 @@ function UpdateInfo({  updateUserData, Username, Email, Birthday }) {
                                             type="date"
                                             name="birthday"
                                             value={Birthday}
+                                            onChange={(e) => changeHandler({ ...userObject, Birthday: e.target.value })}
                                             />
 
                                     </Form.Group>

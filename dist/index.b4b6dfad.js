@@ -1000,7 +1000,10 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
 var _redux = require("redux");
-var _reduxDevtoolsExtension = require("redux-devtools-extension");
+var _reduxThunk = require("redux-thunk");
+var _reduxThunkDefault = parcelHelpers.interopDefault(_reduxThunk);
+var _reduxLogger = require("redux-logger");
+// import { devToolsEnhancer } from 'redux-devtools-extension';
 var _reactRedux = require("react-redux");
 var _reducers = require("./reducers/reducers");
 var _reducersDefault = parcelHelpers.interopDefault(_reducers);
@@ -1009,7 +1012,12 @@ var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
 var _container = require("react-bootstrap/Container");
 var _containerDefault = parcelHelpers.interopDefault(_container);
 var _indexScss = require("./index.scss");
-const myFlixStore = _redux.createStore(_reducersDefault.default, _reduxDevtoolsExtension.devToolsEnhancer());
+const configureStore = (preloadedState)=>{
+    const store = _redux.createStore(_reducersDefault.default, preloadedState, _redux.compose(_redux.applyMiddleware(_reduxThunkDefault.default, _reduxLogger.createLogger())));
+    return store;
+};
+// const myFlixStore = createStore(moviesApp, devToolsEnhancer());
+const myFlixStore = configureStore();
 // Main component (will eventually use all the others)
 class MyFlixApplication extends _reactDefault.default.Component {
     render() {
@@ -1019,17 +1027,17 @@ class MyFlixApplication extends _reactDefault.default.Component {
             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_containerDefault.default, {
                 children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_mainViewDefault.default, {}, void 0, false, {
                     fileName: "src/index.jsx",
-                    lineNumber: 22,
+                    lineNumber: 41,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "src/index.jsx",
-                lineNumber: 21,
+                lineNumber: 40,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/index.jsx",
-            lineNumber: 20,
+            lineNumber: 39,
             columnNumber: 7
         }, this));
     }
@@ -1044,7 +1052,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","redux":"cDNB3","redux-devtools-extension":"fOPxo","react-redux":"bdVon","./reducers/reducers":"dgblV","./components/main-view/main-view":"4gflv","react-bootstrap/Container":"hEdsw","./index.scss":"lJZlQ","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom":"j6uA9","redux":"cDNB3","redux-thunk":"iFVTZ","redux-logger":"jZzYF","react-redux":"bdVon","./reducers/reducers":"dgblV","./components/main-view/main-view":"4gflv","react-bootstrap/Container":"hEdsw","./index.scss":"lJZlQ","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"iTorj":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react-jsx-dev-runtime.development.js');
 
@@ -22666,6 +22674,8 @@ parcelHelpers.export(exports, "compose", ()=>compose
 );
 parcelHelpers.export(exports, "createStore", ()=>createStore
 );
+parcelHelpers.export(exports, "legacy_createStore", ()=>legacy_createStore
+);
 var _objectSpread2 = require("@babel/runtime/helpers/esm/objectSpread2");
 var _objectSpread2Default = parcelHelpers.interopDefault(_objectSpread2);
 /**
@@ -22749,29 +22759,29 @@ function kindOf(val) {
     return typeOfVal;
 }
 /**
- * Creates a Redux store that holds the state tree.
- * The only way to change the data in the store is to call `dispatch()` on it.
+ * @deprecated
  *
- * There should only be a single store in your app. To specify how different
- * parts of the state tree respond to actions, you may combine several reducers
- * into a single reducer function by using `combineReducers`.
+ * **We recommend using the `configureStore` method
+ * of the `@reduxjs/toolkit` package**, which replaces `createStore`.
  *
- * @param {Function} reducer A function that returns the next state tree, given
- * the current state tree and the action to handle.
+ * Redux Toolkit is our recommended approach for writing Redux logic today,
+ * including store setup, reducers, data fetching, and more.
  *
- * @param {any} [preloadedState] The initial state. You may optionally specify it
- * to hydrate the state from the server in universal apps, or to restore a
- * previously serialized user session.
- * If you use `combineReducers` to produce the root reducer function, this must be
- * an object with the same shape as `combineReducers` keys.
+ * **For more details, please read this Redux docs page:**
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
  *
- * @param {Function} [enhancer] The store enhancer. You may optionally specify it
- * to enhance the store with third-party capabilities such as middleware,
- * time travel, persistence, etc. The only store enhancer that ships with Redux
- * is `applyMiddleware()`.
+ * `configureStore` from Redux Toolkit is an improved version of `createStore` that
+ * simplifies setup and helps avoid common bugs.
  *
- * @returns {Store} A Redux store that lets you read the state, dispatch actions
- * and subscribe to changes.
+ * You should not be using the `redux` core package by itself today, except for learning purposes.
+ * The `createStore` method from the core `redux` package will not be removed, but we encourage
+ * all users to migrate to using Redux Toolkit for all Redux code.
+ *
+ * If you want to use `createStore` without this visual deprecation warning, use
+ * the `legacy_createStore` import instead:
+ *
+ * `import { legacy_createStore as createStore} from 'redux'`
+ *
  */ function createStore(reducer, preloadedState, enhancer) {
     var _ref2;
     if (typeof preloadedState === 'function' && typeof enhancer === 'function' || typeof enhancer === 'function' && typeof arguments[3] === 'function') throw new Error("It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
@@ -22947,6 +22957,36 @@ function kindOf(val) {
         replaceReducer: replaceReducer
     }, _ref2[$$observable] = observable, _ref2;
 }
+/**
+ * Creates a Redux store that holds the state tree.
+ *
+ * **We recommend using `configureStore` from the
+ * `@reduxjs/toolkit` package**, which replaces `createStore`:
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
+ *
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */ var legacy_createStore = createStore;
 /**
  * Prints a warning in the console if it exists.
  *
@@ -23217,22 +23257,549 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"fOPxo":[function(require,module,exports) {
-'use strict';
-var compose = require('redux').compose;
-exports.__esModule = true;
-exports.composeWithDevTools = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : function() {
-    if (arguments.length === 0) return undefined;
-    if (typeof arguments[0] === 'object') return compose;
-    return compose.apply(null, arguments);
-};
-exports.devToolsEnhancer = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ : function() {
-    return function(noop) {
-        return noop;
+},{}],"iFVTZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+/** A function that accepts a potential "extra argument" value to be injected later,
+ * and returns an instance of the thunk middleware that uses that value
+ */ function createThunkMiddleware(extraArgument) {
+    // Standard Redux middleware definition pattern:
+    // See: https://redux.js.org/tutorials/fundamentals/part-4-store#writing-custom-middleware
+    var middleware = function middleware(_ref) {
+        var dispatch = _ref.dispatch, getState = _ref.getState;
+        return function(next) {
+            return function(action) {
+                // The thunk middleware looks for any functions that were passed to `store.dispatch`.
+                // If this "action" is really a function, call it and return the result.
+                if (typeof action === 'function') // Inject the store's `dispatch` and `getState` methods, as well as any "extra arg"
+                return action(dispatch, getState, extraArgument);
+                 // Otherwise, pass the action down the middleware chain as usual
+                return next(action);
+            };
+        };
     };
-};
+    return middleware;
+}
+var thunk = createThunkMiddleware(); // Attach the factory function so users can create a customized version
+// with whatever "extra arg" they want to inject into their thunks
+thunk.withExtraArgument = createThunkMiddleware;
+exports.default = thunk;
 
-},{"redux":"cDNB3"}],"bdVon":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"jZzYF":[function(require,module,exports) {
+var global = arguments[3];
+!function(e, t) {
+    t(exports);
+}(this, function(e1) {
+    "use strict";
+    function t1(e, t) {
+        e.super_ = t, e.prototype = Object.create(t.prototype, {
+            constructor: {
+                value: e,
+                enumerable: !1,
+                writable: !0,
+                configurable: !0
+            }
+        });
+    }
+    function r1(e, t) {
+        Object.defineProperty(this, "kind", {
+            value: e,
+            enumerable: !0
+        }), t && t.length && Object.defineProperty(this, "path", {
+            value: t,
+            enumerable: !0
+        });
+    }
+    function n1(e, t, r) {
+        n1.super_.call(this, "E", e), Object.defineProperty(this, "lhs", {
+            value: t,
+            enumerable: !0
+        }), Object.defineProperty(this, "rhs", {
+            value: r,
+            enumerable: !0
+        });
+    }
+    function o1(e, t) {
+        o1.super_.call(this, "N", e), Object.defineProperty(this, "rhs", {
+            value: t,
+            enumerable: !0
+        });
+    }
+    function i1(e, t) {
+        i1.super_.call(this, "D", e), Object.defineProperty(this, "lhs", {
+            value: t,
+            enumerable: !0
+        });
+    }
+    function a1(e, t, r) {
+        a1.super_.call(this, "A", e), Object.defineProperty(this, "index", {
+            value: t,
+            enumerable: !0
+        }), Object.defineProperty(this, "item", {
+            value: r,
+            enumerable: !0
+        });
+    }
+    function f1(e, t, r) {
+        var n = e.slice((r || t) + 1 || e.length);
+        return e.length = t < 0 ? e.length + t : t, e.push.apply(e, n), e;
+    }
+    function u1(e) {
+        var t = "undefined" == typeof e ? "undefined" : N1(e);
+        return "object" !== t ? t : e === Math ? "math" : null === e ? "null" : Array.isArray(e) ? "array" : "[object Date]" === Object.prototype.toString.call(e) ? "date" : "function" == typeof e.toString && /^\/.*\//.test(e.toString()) ? "regexp" : "object";
+    }
+    function l1(e2, t2, r, c, s, d, p) {
+        s = s || [], p = p || [];
+        var g = s.slice(0);
+        if ("undefined" != typeof d) {
+            if (c) {
+                if ("function" == typeof c && c(g, d)) return;
+                if ("object" === ("undefined" == typeof c ? "undefined" : N1(c))) {
+                    if (c.prefilter && c.prefilter(g, d)) return;
+                    if (c.normalize) {
+                        var h = c.normalize(g, d, e2, t2);
+                        h && (e2 = h[0], t2 = h[1]);
+                    }
+                }
+            }
+            g.push(d);
+        }
+        "regexp" === u1(e2) && "regexp" === u1(t2) && (e2 = e2.toString(), t2 = t2.toString());
+        var y = "undefined" == typeof e2 ? "undefined" : N1(e2), v = "undefined" == typeof t2 ? "undefined" : N1(t2), b = "undefined" !== y || p && p[p.length - 1].lhs && p[p.length - 1].lhs.hasOwnProperty(d), m = "undefined" !== v || p && p[p.length - 1].rhs && p[p.length - 1].rhs.hasOwnProperty(d);
+        if (!b && m) r(new o1(g, t2));
+        else if (!m && b) r(new i1(g, e2));
+        else if (u1(e2) !== u1(t2)) r(new n1(g, e2, t2));
+        else if ("date" === u1(e2) && e2 - t2 !== 0) r(new n1(g, e2, t2));
+        else if ("object" === y && null !== e2 && null !== t2) {
+            if (p.filter(function(t) {
+                return t.lhs === e2;
+            }).length) e2 !== t2 && r(new n1(g, e2, t2));
+            else {
+                if (p.push({
+                    lhs: e2,
+                    rhs: t2
+                }), Array.isArray(e2)) {
+                    var w;
+                    e2.length;
+                    for(w = 0; w < e2.length; w++)w >= t2.length ? r(new a1(g, w, new i1(void 0, e2[w]))) : l1(e2[w], t2[w], r, c, g, w, p);
+                    for(; w < t2.length;)r(new a1(g, w, new o1(void 0, t2[w++])));
+                } else {
+                    var x = Object.keys(e2), S = Object.keys(t2);
+                    x.forEach(function(n, o) {
+                        var i = S.indexOf(n);
+                        i >= 0 ? (l1(e2[n], t2[n], r, c, g, n, p), S = f1(S, i)) : l1(e2[n], void 0, r, c, g, n, p);
+                    }), S.forEach(function(e) {
+                        l1(void 0, t2[e], r, c, g, e, p);
+                    });
+                }
+                p.length = p.length - 1;
+            }
+        } else e2 !== t2 && ("number" === y && isNaN(e2) && isNaN(t2) || r(new n1(g, e2, t2)));
+    }
+    function c1(e3, t, r, n) {
+        return n = n || [], l1(e3, t, function(e) {
+            e && n.push(e);
+        }, r), n.length ? n : void 0;
+    }
+    function s1(e, t, r) {
+        if (r.path && r.path.length) {
+            var n, o = e[t], i = r.path.length - 1;
+            for(n = 0; n < i; n++)o = o[r.path[n]];
+            switch(r.kind){
+                case "A":
+                    s1(o[r.path[n]], r.index, r.item);
+                    break;
+                case "D":
+                    delete o[r.path[n]];
+                    break;
+                case "E":
+                case "N":
+                    o[r.path[n]] = r.rhs;
+            }
+        } else switch(r.kind){
+            case "A":
+                s1(e[t], r.index, r.item);
+                break;
+            case "D":
+                e = f1(e, t);
+                break;
+            case "E":
+            case "N":
+                e[t] = r.rhs;
+        }
+        return e;
+    }
+    function d1(e, t, r) {
+        if (e && t && r && r.kind) {
+            for(var n = e, o = -1, i = r.path ? r.path.length - 1 : 0; ++o < i;)"undefined" == typeof n[r.path[o]] && (n[r.path[o]] = "number" == typeof r.path[o] ? [] : {}), n = n[r.path[o]];
+            switch(r.kind){
+                case "A":
+                    s1(r.path ? n[r.path[o]] : n, r.index, r.item);
+                    break;
+                case "D":
+                    delete n[r.path[o]];
+                    break;
+                case "E":
+                case "N":
+                    n[r.path[o]] = r.rhs;
+            }
+        }
+    }
+    function p1(e, t, r) {
+        if (r.path && r.path.length) {
+            var n, o = e[t], i = r.path.length - 1;
+            for(n = 0; n < i; n++)o = o[r.path[n]];
+            switch(r.kind){
+                case "A":
+                    p1(o[r.path[n]], r.index, r.item);
+                    break;
+                case "D":
+                    o[r.path[n]] = r.lhs;
+                    break;
+                case "E":
+                    o[r.path[n]] = r.lhs;
+                    break;
+                case "N":
+                    delete o[r.path[n]];
+            }
+        } else switch(r.kind){
+            case "A":
+                p1(e[t], r.index, r.item);
+                break;
+            case "D":
+                e[t] = r.lhs;
+                break;
+            case "E":
+                e[t] = r.lhs;
+                break;
+            case "N":
+                e = f1(e, t);
+        }
+        return e;
+    }
+    function g1(e, t, r) {
+        if (e && t && r && r.kind) {
+            var n, o, i = e;
+            for(o = r.path.length - 1, n = 0; n < o; n++)"undefined" == typeof i[r.path[n]] && (i[r.path[n]] = {}), i = i[r.path[n]];
+            switch(r.kind){
+                case "A":
+                    p1(i[r.path[n]], r.index, r.item);
+                    break;
+                case "D":
+                    i[r.path[n]] = r.lhs;
+                    break;
+                case "E":
+                    i[r.path[n]] = r.lhs;
+                    break;
+                case "N":
+                    delete i[r.path[n]];
+            }
+        }
+    }
+    function h1(e, t, r) {
+        if (e && t) {
+            var n2 = function(n) {
+                r && !r(e, t, n) || d1(e, t, n);
+            };
+            l1(e, t, n2);
+        }
+    }
+    function y1(e) {
+        return "color: " + F1[e].color + "; font-weight: bold";
+    }
+    function v1(e) {
+        var t = e.kind, r = e.path, n = e.lhs, o = e.rhs, i = e.index, a = e.item;
+        switch(t){
+            case "E":
+                return [
+                    r.join("."),
+                    n,
+                    "→",
+                    o
+                ];
+            case "N":
+                return [
+                    r.join("."),
+                    o
+                ];
+            case "D":
+                return [
+                    r.join(".")
+                ];
+            case "A":
+                return [
+                    r.join(".") + "[" + i + "]",
+                    a
+                ];
+            default:
+                return [];
+        }
+    }
+    function b1(e5, t3, r, n4) {
+        var o = c1(e5, t3);
+        try {
+            n4 ? r.groupCollapsed("diff") : r.group("diff");
+        } catch (e4) {
+            r.log("diff");
+        }
+        o ? o.forEach(function(e) {
+            var t = e.kind, n = v1(e);
+            r.log.apply(r, [
+                "%c " + F1[t].text,
+                y1(t)
+            ].concat(P1(n)));
+        }) : r.log("—— no diff ——");
+        try {
+            r.groupEnd();
+        } catch (e) {
+            r.log("—— diff end —— ");
+        }
+    }
+    function m1(e, t, r, n) {
+        switch("undefined" == typeof e ? "undefined" : N1(e)){
+            case "object":
+                return "function" == typeof e[n] ? e[n].apply(e, P1(r)) : e[n];
+            case "function":
+                return e(t);
+            default:
+                return e;
+        }
+    }
+    function w1(e6) {
+        var t = e6.timestamp, r = e6.duration;
+        return function(e, n, o) {
+            var i = [
+                "action"
+            ];
+            return i.push("%c" + String(e.type)), t && i.push("%c@ " + n), r && i.push("%c(in " + o.toFixed(2) + " ms)"), i.join(" ");
+        };
+    }
+    function x1(e, t) {
+        var r = t.logger, n = t.actionTransformer, o2 = t.titleFormatter, i = void 0 === o2 ? w1(t) : o2, a = t.collapsed, f = t.colors, u = t.level, l = t.diff, c = "undefined" == typeof t.titleFormatter;
+        e.forEach(function(o, s) {
+            var d = o.started, p = o.startedTime, g = o.action, h = o.prevState, y = o.error, v = o.took, w = o.nextState, x = e[s + 1];
+            x && (w = x.prevState, v = x.started - d);
+            var S = n(g), k = "function" == typeof a ? a(function() {
+                return w;
+            }, g, o) : a, j = D(p), E = f.title ? "color: " + f.title(S) + ";" : "", A = [
+                "color: gray; font-weight: lighter;"
+            ];
+            A.push(E), t.timestamp && A.push("color: gray; font-weight: lighter;"), t.duration && A.push("color: gray; font-weight: lighter;");
+            var O = i(S, j, v);
+            try {
+                k ? f.title && c ? r.groupCollapsed.apply(r, [
+                    "%c " + O
+                ].concat(A)) : r.groupCollapsed(O) : f.title && c ? r.group.apply(r, [
+                    "%c " + O
+                ].concat(A)) : r.group(O);
+            } catch (e) {
+                r.log(O);
+            }
+            var N = m1(u, S, [
+                h
+            ], "prevState"), P = m1(u, S, [
+                S
+            ], "action"), C = m1(u, S, [
+                y,
+                h
+            ], "error"), F = m1(u, S, [
+                w
+            ], "nextState");
+            if (N) {
+                if (f.prevState) {
+                    var L = "color: " + f.prevState(h) + "; font-weight: bold";
+                    r[N]("%c prev state", L, h);
+                } else r[N]("prev state", h);
+            }
+            if (P) {
+                if (f.action) {
+                    var T = "color: " + f.action(S) + "; font-weight: bold";
+                    r[P]("%c action    ", T, S);
+                } else r[P]("action    ", S);
+            }
+            if (y && C) {
+                if (f.error) {
+                    var M = "color: " + f.error(y, h) + "; font-weight: bold;";
+                    r[C]("%c error     ", M, y);
+                } else r[C]("error     ", y);
+            }
+            if (F) {
+                if (f.nextState) {
+                    var _ = "color: " + f.nextState(w) + "; font-weight: bold";
+                    r[F]("%c next state", _, w);
+                } else r[F]("next state", w);
+            }
+            l && b1(h, w, r, k);
+            try {
+                r.groupEnd();
+            } catch (e7) {
+                r.log("—— log end ——");
+            }
+        });
+    }
+    function S1() {
+        var e8 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t4 = Object.assign({}, L1, e8), r2 = t4.logger, n = t4.stateTransformer, o = t4.errorTransformer, i = t4.predicate, a = t4.logErrors, f = t4.diffPredicate;
+        if ("undefined" == typeof r2) return function() {
+            return function(e) {
+                return function(t) {
+                    return e(t);
+                };
+            };
+        };
+        if (e8.getState && e8.dispatch) return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"), function() {
+            return function(e) {
+                return function(t) {
+                    return e(t);
+                };
+            };
+        };
+        var u = [];
+        return function(e9) {
+            var r = e9.getState;
+            return function(e10) {
+                return function(l) {
+                    if ("function" == typeof i && !i(r, l)) return e10(l);
+                    var c = {};
+                    u.push(c), c.started = O1.now(), c.startedTime = new Date, c.prevState = n(r()), c.action = l;
+                    var s = void 0;
+                    if (a) try {
+                        s = e10(l);
+                    } catch (e) {
+                        c.error = o(e);
+                    }
+                    else s = e10(l);
+                    c.took = O1.now() - c.started, c.nextState = n(r());
+                    var d = t4.diff && "function" == typeof f ? f(r, l) : t4.diff;
+                    if (x1(u, Object.assign({}, t4, {
+                        diff: d
+                    })), u.length = 0, c.error) throw c.error;
+                    return s;
+                };
+            };
+        };
+    }
+    var k1, j1, E1 = function(e, t) {
+        return new Array(t + 1).join(e);
+    }, A1 = function(e, t) {
+        return E1("0", t - e.toString().length) + e;
+    }, D = function(e) {
+        return A1(e.getHours(), 2) + ":" + A1(e.getMinutes(), 2) + ":" + A1(e.getSeconds(), 2) + "." + A1(e.getMilliseconds(), 3);
+    }, O1 = "undefined" != typeof performance && null !== performance && "function" == typeof performance.now ? performance : Date, N1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
+        return typeof e;
+    } : function(e) {
+        return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
+    }, P1 = function(e) {
+        if (Array.isArray(e)) {
+            for(var t = 0, r = Array(e.length); t < e.length; t++)r[t] = e[t];
+            return r;
+        }
+        return Array.from(e);
+    }, C1 = [];
+    k1 = "object" === ("undefined" == typeof global ? "undefined" : N1(global)) && global ? global : "undefined" != typeof window ? window : {}, j1 = k1.DeepDiff, j1 && C1.push(function() {
+        "undefined" != typeof j1 && k1.DeepDiff === c1 && (k1.DeepDiff = j1, j1 = void 0);
+    }), t1(n1, r1), t1(o1, r1), t1(i1, r1), t1(a1, r1), Object.defineProperties(c1, {
+        diff: {
+            value: c1,
+            enumerable: !0
+        },
+        observableDiff: {
+            value: l1,
+            enumerable: !0
+        },
+        applyDiff: {
+            value: h1,
+            enumerable: !0
+        },
+        applyChange: {
+            value: d1,
+            enumerable: !0
+        },
+        revertChange: {
+            value: g1,
+            enumerable: !0
+        },
+        isConflict: {
+            value: function() {
+                return "undefined" != typeof j1;
+            },
+            enumerable: !0
+        },
+        noConflict: {
+            value: function() {
+                return C1 && (C1.forEach(function(e) {
+                    e();
+                }), C1 = null), c1;
+            },
+            enumerable: !0
+        }
+    });
+    var F1 = {
+        E: {
+            color: "#2196F3",
+            text: "CHANGED:"
+        },
+        N: {
+            color: "#4CAF50",
+            text: "ADDED:"
+        },
+        D: {
+            color: "#F44336",
+            text: "DELETED:"
+        },
+        A: {
+            color: "#2196F3",
+            text: "ARRAY:"
+        }
+    }, L1 = {
+        level: "log",
+        logger: console,
+        logErrors: !0,
+        collapsed: void 0,
+        predicate: void 0,
+        duration: !1,
+        timestamp: !0,
+        stateTransformer: function(e) {
+            return e;
+        },
+        actionTransformer: function(e) {
+            return e;
+        },
+        errorTransformer: function(e) {
+            return e;
+        },
+        colors: {
+            title: function() {
+                return "inherit";
+            },
+            prevState: function() {
+                return "#9E9E9E";
+            },
+            action: function() {
+                return "#03A9F4";
+            },
+            nextState: function() {
+                return "#4CAF50";
+            },
+            error: function() {
+                return "#F20404";
+            }
+        },
+        diff: !1,
+        diffPredicate: void 0,
+        transformer: void 0
+    }, T1 = function() {
+        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t = e.dispatch, r = e.getState;
+        return "function" == typeof t || "function" == typeof r ? S1()({
+            dispatch: t,
+            getState: r
+        }) : void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n");
+    };
+    e1.defaults = L1, e1.createLogger = S1, e1.logger = T1, e1.default = T1, Object.defineProperty(e1, "__esModule", {
+        value: !0
+    });
+});
+
+},{}],"bdVon":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "batch", ()=>_reactBatchedUpdates.unstable_batchedUpdates
@@ -25477,30 +26044,28 @@ function userObject(state = {
             return state;
     }
 }
-function updateUser(value = {
-    Username: '',
-    Password: '',
-    Email: '',
-    Birthday: '',
-    FavoriteMovies: []
-}, action) {
-    const { field  } = action;
-    switch(action.type){
-        case _actions.UPDATE_USER:
-            return {
-                ...userObject,
-                [field]: value
-            };
-        default:
-            return value;
-    }
-}
+// function updateUser(value = {
+//     Username: '',
+//     Password: '',
+//     Email: '',
+//     Birthday: '',
+//     FavoriteMovies: []}, action) {
+//     const { field } = action;
+//     switch (action.type) {
+//             case UPDATE_USER:
+//                 return {
+//                     ...userObject,
+//                     [field]: value
+//                 };
+//         default:
+//             return value;
+//     }
+// }
 const moviesApp = _redux.combineReducers({
     visibilityFilter,
     movies,
     user,
-    userObject,
-    updateUser
+    userObject
 });
 exports.default = moviesApp;
 
@@ -25526,8 +26091,11 @@ parcelHelpers.export(exports, "setUser", ()=>setUser
 );
 parcelHelpers.export(exports, "setUserObject", ()=>setUserObject
 );
-parcelHelpers.export(exports, "updateUser", ()=>updateUser
+parcelHelpers.export(exports, "profileUpdate", ()=>profileUpdate
 );
+//define action types and store them in variables
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
 const SET_MOVIES = 'SET_MOVIES';
 const SET_FILTER = 'SET_FILTER';
 const SET_USER = 'SET_USER';
@@ -25563,271 +26131,23 @@ function setUserObject(value = {
         value
     };
 }
-function updateUser(value = {
-    Username: '',
-    Password: '',
-    Email: '',
-    Birthday: '',
-    FavoriteMovies: []
-}, field = null) {
-    return {
-        type: UPDATE_USER,
-        value,
-        field
-    };
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"4gflv":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$f7a6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$f7a6.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-//requests to server
-var _axios = require("axios");
-var _axiosDefault = parcelHelpers.interopDefault(_axios);
-//routing
-var _reactRouterDom = require("react-router-dom");
-//redux actions
-var _reactRedux = require("react-redux");
-var _actions = require("../../actions/actions");
-// components
-var _navBar = require("../nav-bar/nav-bar");
-var _loginView = require("../login-view/login-view");
-var _registrationView = require("../registration-view/registration-view");
-var _registrationViewDefault = parcelHelpers.interopDefault(_registrationView);
-var _moviesList = require("../movies-list/movies-list");
-var _moviesListDefault = parcelHelpers.interopDefault(_moviesList);
-var _movieView = require("../movie-view/movie-view");
-var _genreView = require("../genre-view/genre-view");
-var _directorView = require("../director-view/director-view");
-var _profileViewJsx = require("../profile-view/profile-view.jsx");
-var _profileViewJsxDefault = parcelHelpers.interopDefault(_profileViewJsx);
-//styling
-var _reactBootstrap = require("react-bootstrap");
-var _mainViewScss = require("../main-view/main-view.scss");
-class MainView extends _reactDefault.default.Component {
-    constructor(){
-        super();
-        this.onLoggedIn = this.onLoggedIn.bind(this);
-    }
-    componentDidMount() {
+const profileUpdate = (profile)=>(dispatch)=>{
+        const Username = localStorage.getItem('user');
         const token = localStorage.getItem('token');
-        if (token) {
-            this.props.setUser({
-                user: localStorage.getItem('user')
-            });
-            this.getMovies(token);
-        }
-    }
-    onLoggedIn(authData) {
-        this.props.setUser({
-            user: authData.user.Username
-        });
-        localStorage.setItem('token', authData.token);
-        localStorage.setItem('user', authData.user.Username);
-        this.getMovies(authData.token);
-    }
-    onRegistration(authData) {
-        this.props.setUser({
-            user: authData.user.Username
-        });
-    }
-    getMovies(token) {
-        _axiosDefault.default.get('https://flicking-through-flicks.herokuapp.com/movies', {
+        delete profile.Password;
+        return _axiosDefault.default.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`, profile, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            this.props.setMovies(response.data);
-        }).catch((error)=>{
-            console.log(error);
+            localStorage.setItem('user', response.data.Username);
+            alert('Profile update');
+            dispatch(setUserObject(profile));
         });
     }
-    render() {
-        let { movies  } = this.props;
-        let user1 = localStorage.getItem('user');
-        return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.BrowserRouter, {
-            children: [
-                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_navBar.Menubar, {
-                    user: user1
-                }, void 0, false, {
-                    fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 79,
-                    columnNumber: 17
-                }, this),
-                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Container, {
-                    children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
-                        className: "main-view justify-content-md-center",
-                        children: [
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                exact: true,
-                                path: "/",
-                                render: ()=>{
-                                    if (!user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
-                                            onLoggedIn: (user)=>this.onLoggedIn(user)
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
-                                        className: "main-view"
-                                    }, void 0, false, void 0, void 0);
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_moviesListDefault.default, {
-                                        movies: movies
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 85,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                path: "/register",
-                                render: ()=>{
-                                    if (user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Redirect, {
-                                        to: "/"
-                                    }, void 0, false, void 0, void 0);
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_registrationViewDefault.default, {
-                                            onLoggedIn: this.onLoggedIn
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 98,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                path: "/login",
-                                render: ()=>{
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
-                                            onLoggedIn: this.onLoggedIn
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 106,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                path: "/profile",
-                                render: ({ user , history  })=>{
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_profileViewJsxDefault.default, {
-                                            movies: movies,
-                                            user: user,
-                                            onBackClick: ()=>history.goBack()
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 113,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                path: "/movies/:movieID",
-                                render: ({ match , history  })=>{
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_movieView.MovieView, {
-                                            movie: movies.find((movie)=>movie._id === match.params.movieID
-                                            ),
-                                            onBackClick: ()=>history.goBack()
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 121,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                exact: true,
-                                path: "/genres/:name",
-                                render: ({ match , history  })=>{
-                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
-                                        className: "main-view"
-                                    }, void 0, false, void 0, void 0);
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        md: 8,
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_genreView.GenreView, {
-                                            genre: movies.find((m)=>m.Genre.Name === match.params.name
-                                            ).Genre,
-                                            onBackClick: ()=>history.goBack()
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 128,
-                                columnNumber: 25
-                            }, this),
-                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
-                                exact: true,
-                                path: "/directors/:name",
-                                render: ({ match , history  })=>{
-                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
-                                        className: "main-view"
-                                    }, void 0, false, void 0, void 0);
-                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        md: 12,
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_directorView.DirectorView, {
-                                            director: movies.find((m)=>m.Director.Name === match.params.name
-                                            ).Director,
-                                            onBackClick: ()=>history.goBack()
-                                        }, void 0, false, void 0, void 0)
-                                    }, void 0, false, void 0, void 0);
-                                }
-                            }, void 0, false, {
-                                fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 137,
-                                columnNumber: 25
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 82,
-                        columnNumber: 21
-                    }, this)
-                }, void 0, false, {
-                    fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 81,
-                    columnNumber: 17
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "src/components/main-view/main-view.jsx",
-            lineNumber: 78,
-            columnNumber: 13
-        }, this);
-    }
-}
-let mapStateToProps = (state)=>{
-    return {
-        movies: state.movies,
-        user: state.user.Username
-    };
-};
-exports.default = _reactRedux.connect(mapStateToProps, {
-    setMovies: _actions.setMovies,
-    setUser: _actions.setUser
-})(MainView);
+;
 
-  $parcel$ReactRefreshHelpers$f7a6.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-router-dom":"cHIiW","react-redux":"bdVon","../../actions/actions":"biFwH","../nav-bar/nav-bar":"04Psr","../login-view/login-view":"9YtA0","../registration-view/registration-view":"3U8r7","../movies-list/movies-list":"bPxKK","../movie-view/movie-view":"ggaUx","../genre-view/genre-view":"4tuA0","../director-view/director-view":"9tpci","../profile-view/profile-view.jsx":"2vVqf","react-bootstrap":"3AD9A","../main-view/main-view.scss":"eBaMl","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"jo6P5":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"63MyY"}],"63MyY":[function(require,module,exports) {
@@ -27368,7 +27688,257 @@ var utils = require('./../utils');
     return utils.isObject(payload) && payload.isAxiosError === true;
 };
 
-},{"./../utils":"5By4s"}],"cHIiW":[function(require,module,exports) {
+},{"./../utils":"5By4s"}],"4gflv":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$f7a6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$f7a6.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+//requests to server
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+//routing
+var _reactRouterDom = require("react-router-dom");
+//redux actions
+var _reactRedux = require("react-redux");
+var _actions = require("../../actions/actions");
+// components
+var _navBar = require("../nav-bar/nav-bar");
+var _loginView = require("../login-view/login-view");
+var _registrationView = require("../registration-view/registration-view");
+var _registrationViewDefault = parcelHelpers.interopDefault(_registrationView);
+var _moviesList = require("../movies-list/movies-list");
+var _moviesListDefault = parcelHelpers.interopDefault(_moviesList);
+var _movieView = require("../movie-view/movie-view");
+var _genreView = require("../genre-view/genre-view");
+var _directorView = require("../director-view/director-view");
+var _profileViewJsx = require("../profile-view/profile-view.jsx");
+var _profileViewJsxDefault = parcelHelpers.interopDefault(_profileViewJsx);
+//styling
+var _reactBootstrap = require("react-bootstrap");
+var _mainViewScss = require("../main-view/main-view.scss");
+class MainView extends _reactDefault.default.Component {
+    constructor(){
+        super();
+        this.onLoggedIn = this.onLoggedIn.bind(this);
+    }
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.props.setUser({
+                user: localStorage.getItem('user')
+            });
+            this.getMovies(token);
+        }
+    }
+    onLoggedIn(authData) {
+        this.props.setUser({
+            user: authData.user.Username
+        });
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.user.Username);
+        this.getMovies(authData.token);
+    }
+    onRegistration(authData) {
+        this.props.setUser({
+            user: authData.user.Username
+        });
+    }
+    getMovies(token) {
+        _axiosDefault.default.get('https://flicking-through-flicks.herokuapp.com/movies', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>{
+            this.props.setMovies(response.data);
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
+    render() {
+        let { movies  } = this.props;
+        let user1 = localStorage.getItem('user');
+        return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.BrowserRouter, {
+            children: [
+                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_navBar.Menubar, {
+                    user: user1
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 80,
+                    columnNumber: 17
+                }, this),
+                /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Container, {
+                    children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
+                        className: "main-view justify-content-md-center",
+                        children: [
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                exact: true,
+                                path: "/",
+                                render: ()=>{
+                                    if (!user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
+                                            onLoggedIn: (user)=>this.onLoggedIn(user)
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
+                                        className: "main-view"
+                                    }, void 0, false, void 0, void 0);
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_moviesListDefault.default, {
+                                        movies: movies
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 86,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                path: "/register",
+                                render: ()=>{
+                                    if (user1) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Redirect, {
+                                        to: "/"
+                                    }, void 0, false, void 0, void 0);
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_registrationViewDefault.default, {
+                                            onLoggedIn: this.onLoggedIn
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 99,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                path: "/login",
+                                render: ()=>{
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_loginView.LoginView, {
+                                            onLoggedIn: this.onLoggedIn
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 107,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                path: "/profile",
+                                render: ({ user , history  })=>{
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_profileViewJsxDefault.default, {
+                                            movies: movies,
+                                            user: user,
+                                            onBackClick: ()=>history.goBack()
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 114,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                path: "/movies/:movieID",
+                                render: ({ match , history  })=>{
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_movieView.MovieView, {
+                                            movie: movies.find((movie)=>movie._id === match.params.movieID
+                                            ),
+                                            onBackClick: ()=>history.goBack()
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 122,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                exact: true,
+                                path: "/genres/:name",
+                                render: ({ match , history  })=>{
+                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
+                                        className: "main-view"
+                                    }, void 0, false, void 0, void 0);
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        md: 8,
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_genreView.GenreView, {
+                                            genre: movies.find((m)=>m.Genre.Name === match.params.name
+                                            ).Genre,
+                                            onBackClick: ()=>history.goBack()
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 129,
+                                columnNumber: 25
+                            }, this),
+                            /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Route, {
+                                exact: true,
+                                path: "/directors/:name",
+                                render: ({ match , history  })=>{
+                                    if (movies.length === 0) return /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
+                                        className: "main-view"
+                                    }, void 0, false, void 0, void 0);
+                                    return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
+                                        md: 12,
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_directorView.DirectorView, {
+                                            director: movies.find((m)=>m.Director.Name === match.params.name
+                                            ).Director,
+                                            onBackClick: ()=>history.goBack()
+                                        }, void 0, false, void 0, void 0)
+                                    }, void 0, false, void 0, void 0);
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/main-view/main-view.jsx",
+                                lineNumber: 138,
+                                columnNumber: 25
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/main-view/main-view.jsx",
+                        lineNumber: 83,
+                        columnNumber: 21
+                    }, this)
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 82,
+                    columnNumber: 17
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "src/components/main-view/main-view.jsx",
+            lineNumber: 79,
+            columnNumber: 13
+        }, this);
+    }
+}
+let mapStateToProps = (state)=>{
+    return {
+        movies: state.movies,
+        user: state.user.Username
+    };
+};
+exports.default = _reactRedux.connect(mapStateToProps, {
+    setMovies: _actions.setMovies,
+    setUser: _actions.setUser
+})(MainView);
+
+  $parcel$ReactRefreshHelpers$f7a6.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-router-dom":"cHIiW","react-redux":"bdVon","../../actions/actions":"biFwH","../nav-bar/nav-bar":"04Psr","../login-view/login-view":"9YtA0","../registration-view/registration-view":"3U8r7","../movies-list/movies-list":"bPxKK","../movie-view/movie-view":"ggaUx","../genre-view/genre-view":"4tuA0","../director-view/director-view":"9tpci","../profile-view/profile-view.jsx":"2vVqf","react-bootstrap":"3AD9A","../main-view/main-view.scss":"eBaMl","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"cHIiW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MemoryRouter", ()=>_reactRouter.MemoryRouter
@@ -27438,7 +28008,7 @@ var _tinyInvariantDefault = parcelHelpers.interopDefault(_tinyInvariant);
     }
     var _proto = BrowserRouter1.prototype;
     _proto.render = function render() {
-        return _reactDefault.default.createElement(_reactRouter.Router, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(_reactRouter.Router, {
             history: this.history,
             children: this.props.children
         });
@@ -27470,7 +28040,7 @@ BrowserRouter.prototype.componentDidMount = function() {
     }
     var _proto = HashRouter1.prototype;
     _proto.render = function render() {
-        return _reactDefault.default.createElement(_reactRouter.Router, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(_reactRouter.Router, {
             history: this.history,
             children: this.props.children
         });
@@ -27528,7 +28098,7 @@ var LinkAnchor = forwardRef(function(_ref, forwardedRef) {
     }); // React 15 compat
     if (forwardRefShim !== forwardRef) props.ref = forwardedRef || innerRef;
     else props.ref = innerRef;
-    /* eslint-disable-next-line jsx-a11y/anchor-has-content */ return _reactDefault.default.createElement("a", props);
+    /* eslint-disable-next-line jsx-a11y/anchor-has-content */ return /*#__PURE__*/ _reactDefault.default.createElement("a", props);
 });
 LinkAnchor.displayName = "LinkAnchor";
 /**
@@ -27540,7 +28110,7 @@ LinkAnchor.displayName = "LinkAnchor";
         "to",
         "innerRef"
     ]);
-    return _reactDefault.default.createElement(_reactRouter.__RouterContext.Consumer, null, function(context) {
+    return /*#__PURE__*/ _reactDefault.default.createElement(_reactRouter.__RouterContext.Consumer, null, function(context) {
         !context && _tinyInvariantDefault.default(false, "You should not use <Link> outside a <Router>");
         var history = context.history;
         var location1 = normalizeToLocation(resolveToLocation(to, context.location), context.location);
@@ -27549,13 +28119,14 @@ LinkAnchor.displayName = "LinkAnchor";
             href: href,
             navigate: function navigate() {
                 var location = resolveToLocation(to, context.location);
-                var method = replace ? history.replace : history.push;
+                var isDuplicateNavigation = _history.createPath(context.location) === _history.createPath(normalizeToLocation(location));
+                var method = replace || isDuplicateNavigation ? history.replace : history.push;
                 method(location);
             }
         }); // React 15 compat
         if (forwardRefShim !== forwardRef) props.ref = forwardedRef || innerRef;
         else props.innerRef = innerRef;
-        return _reactDefault.default.createElement(component, props);
+        return /*#__PURE__*/ _reactDefault.default.createElement(component, props);
     });
 });
 var toType = _propTypesDefault.default.oneOfType([
@@ -27606,7 +28177,7 @@ function joinClassnames() {
         "to",
         "innerRef"
     ]);
-    return _reactDefault.default.createElement(_reactRouter.__RouterContext.Consumer, null, function(context) {
+    return /*#__PURE__*/ _reactDefault.default.createElement(_reactRouter.__RouterContext.Consumer, null, function(context) {
         !context && _tinyInvariantDefault.default(false, "You should not use <NavLink> outside a <Router>");
         var currentLocation = locationProp || context.location;
         var toLocation = normalizeToLocation(resolveToLocation(to, currentLocation), currentLocation);
@@ -27619,8 +28190,12 @@ function joinClassnames() {
             strict: strict
         }) : null;
         var isActive = !!(isActiveProp ? isActiveProp(match, currentLocation) : match);
-        var className = isActive ? joinClassnames(classNameProp, activeClassName) : classNameProp;
-        var style = isActive ? _extendsDefault.default({}, styleProp, {}, activeStyle) : styleProp;
+        var className = typeof classNameProp === "function" ? classNameProp(isActive) : classNameProp;
+        var style = typeof styleProp === "function" ? styleProp(isActive) : styleProp;
+        if (isActive) {
+            className = joinClassnames(className, activeClassName);
+            style = _extendsDefault.default({}, style, activeStyle);
+        }
         var props = _extendsDefault.default({
             "aria-current": isActive && ariaCurrent || null,
             className: className,
@@ -27629,7 +28204,7 @@ function joinClassnames() {
         }, rest); // React 15 compat
         if (forwardRefShim$1 !== forwardRef$1) props.ref = forwardedRef || innerRef;
         else props.innerRef = innerRef;
-        return _reactDefault.default.createElement(Link, props);
+        return /*#__PURE__*/ _reactDefault.default.createElement(Link, props);
     });
 });
 NavLink.displayName = "NavLink";
@@ -27639,19 +28214,26 @@ var ariaCurrentType = _propTypesDefault.default.oneOf([
     "location",
     "date",
     "time",
-    "true"
+    "true",
+    "false"
 ]);
 NavLink.propTypes = _extendsDefault.default({}, Link.propTypes, {
     "aria-current": ariaCurrentType,
     activeClassName: _propTypesDefault.default.string,
     activeStyle: _propTypesDefault.default.object,
-    className: _propTypesDefault.default.string,
+    className: _propTypesDefault.default.oneOfType([
+        _propTypesDefault.default.string,
+        _propTypesDefault.default.func
+    ]),
     exact: _propTypesDefault.default.bool,
     isActive: _propTypesDefault.default.func,
     location: _propTypesDefault.default.object,
     sensitive: _propTypesDefault.default.bool,
     strict: _propTypesDefault.default.bool,
-    style: _propTypesDefault.default.object
+    style: _propTypesDefault.default.oneOfType([
+        _propTypesDefault.default.object,
+        _propTypesDefault.default.func
+    ])
 });
 
 },{"react-router":"dvHa0","@babel/runtime/helpers/esm/inheritsLoose":"9u2Z8","react":"21dqq","history":"6yWeD","prop-types":"7wKI2","tiny-warning":"82vrW","@babel/runtime/helpers/esm/extends":"fTBFS","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"adHgr","tiny-invariant":"fnIPv","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"dvHa0":[function(require,module,exports) {
@@ -27718,13 +28300,7 @@ var createNamedContext = function createNamedContext(name) {
     return context1;
 };
 var historyContext = /*#__PURE__*/ createNamedContext("Router-History");
-// TODO: Replace with React.createContext once we can assume React 16+
-var createNamedContext$1 = function createNamedContext(name) {
-    var context2 = _miniCreateReactContextDefault.default();
-    context2.displayName = name;
-    return context2;
-};
-var context = /*#__PURE__*/ createNamedContext$1("Router");
+var context = /*#__PURE__*/ createNamedContext("Router");
 /**
  * The public API for putting history on context.
  */ var Router = /*#__PURE__*/ function(_React$Component) {
@@ -27765,17 +28341,21 @@ var context = /*#__PURE__*/ createNamedContext$1("Router");
         });
     };
     _proto.componentWillUnmount = function componentWillUnmount() {
-        if (this.unlisten) this.unlisten();
+        if (this.unlisten) {
+            this.unlisten();
+            this._isMounted = false;
+            this._pendingLocation = null;
+        }
     };
     _proto.render = function render() {
-        return _reactDefault.default.createElement(context.Provider, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(context.Provider, {
             value: {
                 history: this.props.history,
                 location: this.state.location,
                 match: Router1.computeRootMatch(this.state.location.pathname),
                 staticContext: this.props.staticContext
             }
-        }, _reactDefault.default.createElement(historyContext.Provider, {
+        }, /*#__PURE__*/ _reactDefault.default.createElement(historyContext.Provider, {
             children: this.props.children || null,
             value: this.props.history
         }));
@@ -27805,7 +28385,7 @@ Router.prototype.componentDidUpdate = function(prevProps) {
     }
     var _proto = MemoryRouter1.prototype;
     _proto.render = function render() {
-        return _reactDefault.default.createElement(Router, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(Router, {
             history: this.history,
             children: this.props.children
         });
@@ -27846,11 +28426,11 @@ var Lifecycle = /*#__PURE__*/ function(_React$Component) {
  * The public API for prompting the user before navigating away from a screen.
  */ function Prompt(_ref) {
     var message = _ref.message, _ref$when = _ref.when, when = _ref$when === void 0 ? true : _ref$when;
-    return _reactDefault.default.createElement(context.Consumer, null, function(context3) {
-        !context3 && _tinyInvariantDefault.default(false, "You should not use <Prompt> outside a <Router>");
-        if (!when || context3.staticContext) return null;
-        var method = context3.history.block;
-        return _reactDefault.default.createElement(Lifecycle, {
+    return /*#__PURE__*/ _reactDefault.default.createElement(context.Consumer, null, function(context2) {
+        !context2 && _tinyInvariantDefault.default(false, "You should not use <Prompt> outside a <Router>");
+        if (!when || context2.staticContext) return null;
+        var method = context2.history.block;
+        return /*#__PURE__*/ _reactDefault.default.createElement(Lifecycle, {
             onMount: function onMount(self) {
                 self.release = method(message);
             },
@@ -27900,9 +28480,9 @@ function compilePath(path) {
  * The public API for navigating programmatically with a component.
  */ function Redirect(_ref) {
     var computedMatch = _ref.computedMatch, to = _ref.to, _ref$push = _ref.push, push = _ref$push === void 0 ? false : _ref$push;
-    return _reactDefault.default.createElement(context.Consumer, null, function(context4) {
-        !context4 && _tinyInvariantDefault.default(false, "You should not use <Redirect> outside a <Router>");
-        var history = context4.history, staticContext = context4.staticContext;
+    return /*#__PURE__*/ _reactDefault.default.createElement(context.Consumer, null, function(context3) {
+        !context3 && _tinyInvariantDefault.default(false, "You should not use <Redirect> outside a <Router>");
+        var history = context3.history, staticContext = context3.staticContext;
         var method = push ? history.push : history.replace;
         var location = _history.createLocation(computedMatch ? typeof to === "string" ? generatePath(to, computedMatch.params) : _extendsDefault.default({}, to, {
             pathname: generatePath(to.pathname, computedMatch.params)
@@ -27912,7 +28492,7 @@ function compilePath(path) {
             method(location);
             return null;
         }
-        return _reactDefault.default.createElement(Lifecycle, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(Lifecycle, {
             onMount: function onMount() {
                 method(location);
             },
@@ -28007,7 +28587,7 @@ function evalChildrenDev(children, props, path) {
     var _proto = Route1.prototype;
     _proto.render = function render1() {
         var _this = this;
-        return _reactDefault.default.createElement(context.Consumer, null, function(context$1) {
+        return /*#__PURE__*/ _reactDefault.default.createElement(context.Consumer, null, function(context$1) {
             !context$1 && _tinyInvariantDefault.default(false, "You should not use <Route> outside a <Router>");
             var location = _this.props.location || context$1.location;
             var match = _this.props.computedMatch ? _this.props.computedMatch // <Switch> already computed the match for us
@@ -28018,10 +28598,10 @@ function evalChildrenDev(children, props, path) {
             });
             var _this$props = _this.props, children = _this$props.children, component = _this$props.component, render = _this$props.render; // Preact uses an empty array as children by
             // default, so use null if that's the case.
-            if (Array.isArray(children) && children.length === 0) children = null;
-            return _reactDefault.default.createElement(context.Provider, {
+            if (Array.isArray(children) && isEmptyChildren(children)) children = null;
+            return /*#__PURE__*/ _reactDefault.default.createElement(context.Provider, {
                 value: props
-            }, props.match ? children ? typeof children === "function" ? evalChildrenDev(children, props, _this.props.path) : children : component ? _reactDefault.default.createElement(component, props) : render ? render(props) : null : typeof children === "function" ? evalChildrenDev(children, props, _this.props.path) : null);
+            }, props.match ? children ? typeof children === "function" ? evalChildrenDev(children, props, _this.props.path) : children : component ? /*#__PURE__*/ _reactDefault.default.createElement(component, props) : render ? render(props) : null : typeof children === "function" ? evalChildrenDev(children, props, _this.props.path) : null);
         });
     };
     return Route1;
@@ -28108,13 +28688,13 @@ function noop() {}
     }
     var _proto = StaticRouter1.prototype;
     _proto.navigateTo = function navigateTo(location, action) {
-        var _this$props = this.props, _this$props$basename = _this$props.basename, basename = _this$props$basename === void 0 ? "" : _this$props$basename, _this$props$context = _this$props.context, context5 = _this$props$context === void 0 ? {} : _this$props$context;
-        context5.action = action;
-        context5.location = addBasename(basename, _history.createLocation(location));
-        context5.url = createURL(context5.location);
+        var _this$props = this.props, _this$props$basename = _this$props.basename, basename = _this$props$basename === void 0 ? "" : _this$props$basename, _this$props$context = _this$props.context, context4 = _this$props$context === void 0 ? {} : _this$props$context;
+        context4.action = action;
+        context4.location = addBasename(basename, _history.createLocation(location));
+        context4.url = createURL(context4.location);
     };
     _proto.render = function render() {
-        var _this$props2 = this.props, _this$props2$basename = _this$props2.basename, basename = _this$props2$basename === void 0 ? "" : _this$props2$basename, _this$props2$context = _this$props2.context, context6 = _this$props2$context === void 0 ? {} : _this$props2$context, _this$props2$location = _this$props2.location, location = _this$props2$location === void 0 ? "/" : _this$props2$location, rest = _objectWithoutPropertiesLooseDefault.default(_this$props2, [
+        var _this$props2 = this.props, _this$props2$basename = _this$props2.basename, basename = _this$props2$basename === void 0 ? "" : _this$props2$basename, _this$props2$context = _this$props2.context, context5 = _this$props2$context === void 0 ? {} : _this$props2$context, _this$props2$location = _this$props2.location, location = _this$props2$location === void 0 ? "/" : _this$props2$location, rest = _objectWithoutPropertiesLooseDefault.default(_this$props2, [
             "basename",
             "context",
             "location"
@@ -28133,9 +28713,9 @@ function noop() {}
             listen: this.handleListen,
             block: this.handleBlock
         };
-        return _reactDefault.default.createElement(Router, _extendsDefault.default({}, rest, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(Router, _extendsDefault.default({}, rest, {
             history: history,
-            staticContext: context6
+            staticContext: context5
         }));
     };
     return StaticRouter1;
@@ -28161,23 +28741,23 @@ StaticRouter.prototype.componentDidMount = function() {
     var _proto = Switch1.prototype;
     _proto.render = function render() {
         var _this = this;
-        return _reactDefault.default.createElement(context.Consumer, null, function(context7) {
-            !context7 && _tinyInvariantDefault.default(false, "You should not use <Switch> outside a <Router>");
-            var location = _this.props.location || context7.location;
+        return /*#__PURE__*/ _reactDefault.default.createElement(context.Consumer, null, function(context6) {
+            !context6 && _tinyInvariantDefault.default(false, "You should not use <Switch> outside a <Router>");
+            var location = _this.props.location || context6.location;
             var element, match; // We use React.Children.forEach instead of React.Children.toArray().find()
             // here because toArray adds keys to all child elements and we do not want
             // to trigger an unmount/remount for two <Route>s that render the same
             // component at different URLs.
             _reactDefault.default.Children.forEach(_this.props.children, function(child) {
-                if (match == null && _reactDefault.default.isValidElement(child)) {
+                if (match == null && /*#__PURE__*/ _reactDefault.default.isValidElement(child)) {
                     element = child;
                     var path = child.props.path || child.props.from;
                     match = path ? matchPath(location.pathname, _extendsDefault.default({}, child.props, {
                         path: path
-                    })) : context7.match;
+                    })) : context6.match;
                 }
             });
-            return match ? _reactDefault.default.cloneElement(element, {
+            return match ? /*#__PURE__*/ _reactDefault.default.cloneElement(element, {
                 location: location,
                 computedMatch: match
             }) : null;
@@ -28201,9 +28781,9 @@ Switch.prototype.componentDidUpdate = function(prevProps) {
         var wrappedComponentRef = props.wrappedComponentRef, remainingProps = _objectWithoutPropertiesLooseDefault.default(props, [
             "wrappedComponentRef"
         ]);
-        return _reactDefault.default.createElement(context.Consumer, null, function(context8) {
-            !context8 && _tinyInvariantDefault.default(false, "You should not use <" + displayName + " /> outside a <Router>");
-            return _reactDefault.default.createElement(Component, _extendsDefault.default({}, remainingProps, context8, {
+        return /*#__PURE__*/ _reactDefault.default.createElement(context.Consumer, null, function(context7) {
+            !context7 && _tinyInvariantDefault.default(false, "You should not use <" + displayName + " /> outside a <Router>");
+            return /*#__PURE__*/ _reactDefault.default.createElement(Component, _extendsDefault.default({}, remainingProps, context7, {
                 ref: wrappedComponentRef
             }));
         });
@@ -30015,48 +30595,39 @@ var _toggleButtonGroupDefault = parcelHelpers.interopDefault(_toggleButtonGroup)
 var _tooltip = require("./Tooltip");
 var _tooltipDefault = parcelHelpers.interopDefault(_tooltip);
 
-},{"./Accordion":false,"./AccordionContext":"e5D96","./AccordionCollapse":"kI8r5","./AccordionButton":false,"./Alert":false,"./Anchor":false,"./Badge":false,"./Breadcrumb":false,"./BreadcrumbItem":false,"./Button":"aPzUt","./ButtonGroup":false,"./ButtonToolbar":false,"./Card":"lAynp","./CardImg":"1reTi","./CardGroup":"2j3Ij","./Carousel":false,"./CarouselItem":false,"./CloseButton":"1wmVl","./Col":"2L2I6","./Collapse":"acuzI","./Dropdown":false,"./DropdownButton":false,"./Fade":"aH18S","./Form":"iBZ80","./FormControl":"iynMc","./FormCheck":"idkr0","./FormFloating":"aj346","./FloatingLabel":"coYzo","./FormGroup":"1qBHH","./FormLabel":"66epi","./FormText":"ffeC7","./FormSelect":"hHWyB","./Container":"hEdsw","./Image":"cyVPa","./Figure":"7Eckp","./InputGroup":false,"./ListGroup":false,"./ListGroupItem":false,"./Modal":false,"./ModalBody":false,"./ModalDialog":false,"./ModalHeader":false,"./ModalFooter":false,"./ModalTitle":false,"./Nav":"cXyL2","./Navbar":"1mHjo","./NavbarBrand":"iOo4v","./NavDropdown":false,"./NavItem":"ew05W","./NavLink":"7geL8","./Offcanvas":"eC3RS","./OffcanvasHeader":"a6xAh","./OffcanvasTitle":"77qdX","./OffcanvasBody":"fX7Bo","./Overlay":false,"./OverlayTrigger":false,"./PageItem":false,"./Pagination":false,"./Placeholder":false,"./PlaceholderButton":false,"./Popover":false,"./PopoverHeader":false,"./PopoverBody":false,"./ProgressBar":false,"./Ratio":false,"./Row":"cMC39","./Spinner":false,"./SplitButton":false,"./SSRProvider":false,"./Stack":false,"./Tab":false,"./TabContainer":false,"./TabContent":false,"./Table":false,"./TabPane":false,"./Tabs":false,"./ThemeProvider":"dVixI","./Toast":false,"./ToastBody":false,"./ToastHeader":false,"./ToastContainer":false,"./ToggleButton":false,"./ToggleButtonGroup":false,"./Tooltip":false,"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"e5D96":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "isAccordionItemSelected", ()=>isAccordionItemSelected
-);
-var _react = require("react");
-function isAccordionItemSelected(activeEventKey, eventKey) {
-    return Array.isArray(activeEventKey) ? activeEventKey.includes(eventKey) : activeEventKey === eventKey;
-}
-const context = /*#__PURE__*/ _react.createContext({});
-context.displayName = 'AccordionContext';
-exports.default = context;
-
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"kI8r5":[function(require,module,exports) {
+},{"./Accordion":false,"./AccordionContext":false,"./AccordionCollapse":false,"./AccordionButton":false,"./Alert":false,"./Anchor":false,"./Badge":false,"./Breadcrumb":false,"./BreadcrumbItem":false,"./Button":"aPzUt","./ButtonGroup":false,"./ButtonToolbar":false,"./Card":"lAynp","./CardImg":"1reTi","./CardGroup":"2j3Ij","./Carousel":false,"./CarouselItem":false,"./CloseButton":"1wmVl","./Col":"2L2I6","./Collapse":"acuzI","./Dropdown":false,"./DropdownButton":false,"./Fade":"aH18S","./Form":"iBZ80","./FormControl":"iynMc","./FormCheck":"idkr0","./FormFloating":"aj346","./FloatingLabel":"coYzo","./FormGroup":"1qBHH","./FormLabel":"66epi","./FormText":"ffeC7","./FormSelect":"hHWyB","./Container":"hEdsw","./Image":"cyVPa","./Figure":"7Eckp","./InputGroup":false,"./ListGroup":false,"./ListGroupItem":false,"./Modal":false,"./ModalBody":false,"./ModalDialog":false,"./ModalHeader":false,"./ModalFooter":false,"./ModalTitle":false,"./Nav":"cXyL2","./Navbar":"1mHjo","./NavbarBrand":"iOo4v","./NavDropdown":false,"./NavItem":"ew05W","./NavLink":"7geL8","./Offcanvas":"eC3RS","./OffcanvasHeader":"a6xAh","./OffcanvasTitle":"77qdX","./OffcanvasBody":"fX7Bo","./Overlay":false,"./OverlayTrigger":false,"./PageItem":false,"./Pagination":false,"./Placeholder":false,"./PlaceholderButton":false,"./Popover":false,"./PopoverHeader":false,"./PopoverBody":false,"./ProgressBar":false,"./Ratio":false,"./Row":"cMC39","./Spinner":false,"./SplitButton":false,"./SSRProvider":false,"./Stack":false,"./Tab":false,"./TabContainer":false,"./TabContent":false,"./Table":false,"./TabPane":false,"./Tabs":false,"./ThemeProvider":"dVixI","./Toast":false,"./ToastBody":false,"./ToastHeader":false,"./ToastContainer":false,"./ToggleButton":false,"./ToggleButtonGroup":false,"./Tooltip":false,"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"aPzUt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
 var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
 var _react = require("react");
+var _button = require("@restart/ui/Button");
 var _themeProvider = require("./ThemeProvider");
-var _collapse = require("./Collapse");
-var _collapseDefault = parcelHelpers.interopDefault(_collapse);
-var _accordionContext = require("./AccordionContext");
-var _accordionContextDefault = parcelHelpers.interopDefault(_accordionContext);
 var _jsxRuntime = require("react/jsx-runtime");
-const AccordionCollapse = /*#__PURE__*/ _react.forwardRef(({ as: Component = 'div' , bsPrefix , className , children , eventKey , ...props }, ref)=>{
-    const { activeEventKey  } = _react.useContext(_accordionContextDefault.default);
-    bsPrefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'accordion-collapse');
-    return /*#__PURE__*/ _jsxRuntime.jsx(_collapseDefault.default, {
-        ref: ref,
-        in: _accordionContext.isAccordionItemSelected(activeEventKey, eventKey),
+const defaultProps = {
+    variant: 'primary',
+    active: false,
+    disabled: false
+};
+const Button = /*#__PURE__*/ _react.forwardRef(({ as , bsPrefix , variant , size , active , className , ...props }, ref)=>{
+    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'btn');
+    const [buttonProps, { tagName  }] = _button.useButtonProps({
+        tagName: as,
+        ...props
+    });
+    const Component = tagName;
+    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+        ...buttonProps,
         ...props,
-        className: _classnamesDefault.default(className, bsPrefix),
-        children: /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-            children: _react.Children.only(children)
-        })
+        ref: ref,
+        className: _classnamesDefault.default(className, prefix, active && 'active', variant && `${prefix}-${variant}`, size && `${prefix}-${size}`, props.href && props.disabled && 'disabled')
     });
 });
-AccordionCollapse.displayName = 'AccordionCollapse';
-exports.default = AccordionCollapse;
+Button.displayName = 'Button';
+Button.defaultProps = defaultProps;
+exports.default = Button;
 
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./Collapse":"acuzI","./AccordionContext":"e5D96","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"jocGM":[function(require,module,exports) {
+},{"classnames":"jocGM","react":"21dqq","@restart/ui/Button":"8YUbR","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"jocGM":[function(require,module,exports) {
 /*!
   Copyright (c) 2018 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -30093,84 +30664,97 @@ exports.default = AccordionCollapse;
     else window.classNames = classNames;
 })();
 
-},{}],"dVixI":[function(require,module,exports) {
+},{}],"8YUbR":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "DEFAULT_BREAKPOINTS", ()=>DEFAULT_BREAKPOINTS
+parcelHelpers.export(exports, "isTrivialHref", ()=>isTrivialHref
 );
-parcelHelpers.export(exports, "useBootstrapPrefix", ()=>useBootstrapPrefix
-);
-parcelHelpers.export(exports, "useBootstrapBreakpoints", ()=>useBootstrapBreakpoints
-);
-parcelHelpers.export(exports, "useIsRTL", ()=>useIsRTL
-);
-parcelHelpers.export(exports, "createBootstrapComponent", ()=>createBootstrapComponent
-);
-parcelHelpers.export(exports, "ThemeConsumer", ()=>Consumer
+parcelHelpers.export(exports, "useButtonProps", ()=>useButtonProps
 );
 var _react = require("react");
 var _jsxRuntime = require("react/jsx-runtime");
-const DEFAULT_BREAKPOINTS = [
-    'xxl',
-    'xl',
-    'lg',
-    'md',
-    'sm',
-    'xs'
+const _excluded = [
+    "as",
+    "disabled"
 ];
-const ThemeContext = /*#__PURE__*/ _react.createContext({
-    prefixes: {},
-    breakpoints: DEFAULT_BREAKPOINTS
-});
-const { Consumer , Provider  } = ThemeContext;
-function ThemeProvider({ prefixes ={} , breakpoints =DEFAULT_BREAKPOINTS , dir , children  }) {
-    const contextValue = _react.useMemo(()=>({
-            prefixes: {
-                ...prefixes
-            },
-            breakpoints,
-            dir
-        })
-    , [
-        prefixes,
-        breakpoints,
-        dir
-    ]);
-    return /*#__PURE__*/ _jsxRuntime.jsx(Provider, {
-        value: contextValue,
-        children: children
-    });
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
 }
-function useBootstrapPrefix(prefix, defaultPrefix) {
-    const { prefixes  } = _react.useContext(ThemeContext);
-    return prefix || prefixes[defaultPrefix] || defaultPrefix;
+function isTrivialHref(href) {
+    return !href || href.trim() === '#';
 }
-function useBootstrapBreakpoints() {
-    const { breakpoints  } = _react.useContext(ThemeContext);
-    return breakpoints;
-}
-function useIsRTL() {
-    const { dir  } = _react.useContext(ThemeContext);
-    return dir === 'rtl';
-}
-function createBootstrapComponent(Component, opts) {
-    if (typeof opts === 'string') opts = {
-        prefix: opts
+function useButtonProps({ tagName , disabled , href , target , rel , onClick , tabIndex =0 , type  }) {
+    if (!tagName) {
+        if (href != null || target != null || rel != null) tagName = 'a';
+        else tagName = 'button';
+    }
+    const meta = {
+        tagName
     };
-    const isClassy = Component.prototype && Component.prototype.isReactComponent; // If it's a functional component make sure we don't break it with a ref
-    const { prefix , forwardRefAs =isClassy ? 'ref' : 'innerRef'  } = opts;
-    const Wrapped = /*#__PURE__*/ _react.forwardRef(({ ...props }, ref)=>{
-        props[forwardRefAs] = ref;
-        const bsPrefix = useBootstrapPrefix(props.bsPrefix, prefix);
-        return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-            ...props,
-            bsPrefix: bsPrefix
-        });
-    });
-    Wrapped.displayName = `Bootstrap(${Component.displayName || Component.name})`;
-    return Wrapped;
+    if (tagName === 'button') return [
+        {
+            type: type || 'button',
+            disabled
+        },
+        meta
+    ];
+    const handleClick = (event)=>{
+        if (disabled || tagName === 'a' && isTrivialHref(href)) event.preventDefault();
+        if (disabled) {
+            event.stopPropagation();
+            return;
+        }
+        onClick == null || onClick(event);
+    };
+    const handleKeyDown = (event)=>{
+        if (event.key === ' ') {
+            event.preventDefault();
+            handleClick(event);
+        }
+    };
+    if (tagName === 'a') {
+        // Ensure there's a href so Enter can trigger anchor button.
+        href || (href = '#');
+        if (disabled) href = undefined;
+    }
+    return [
+        {
+            role: 'button',
+            // explicitly undefined so that it overrides the props disabled in a spread
+            // e.g. <Tag {...props} {...hookProps} />
+            disabled: undefined,
+            tabIndex: disabled ? undefined : tabIndex,
+            href,
+            target: tagName === 'a' ? target : undefined,
+            'aria-disabled': !disabled ? undefined : disabled,
+            rel: tagName === 'a' ? rel : undefined,
+            onClick: handleClick,
+            onKeyDown: handleKeyDown
+        },
+        meta
+    ];
 }
-exports.default = ThemeProvider;
+const Button = /*#__PURE__*/ _react.forwardRef((_ref, ref)=>{
+    let { as: asProp , disabled  } = _ref, props = _objectWithoutPropertiesLoose(_ref, _excluded);
+    const [buttonProps, { tagName: Component  }] = useButtonProps(Object.assign({
+        tagName: asProp,
+        disabled
+    }, props));
+    return /*#__PURE__*/ _jsxRuntime.jsx(Component, Object.assign({}, props, buttonProps, {
+        ref: ref
+    }));
+});
+Button.displayName = 'Button';
+exports.default = Button;
 
 },{"react":"21dqq","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"6AEwr":[function(require,module,exports) {
 'use strict';
@@ -30965,7 +31549,352 @@ module.exports = require('./cjs/react-jsx-runtime.development.js');
     exports.jsxs = jsxs;
 })();
 
-},{"react":"21dqq","object-assign":"7OXxh"}],"acuzI":[function(require,module,exports) {
+},{"react":"21dqq","object-assign":"7OXxh"}],"dVixI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "DEFAULT_BREAKPOINTS", ()=>DEFAULT_BREAKPOINTS
+);
+parcelHelpers.export(exports, "useBootstrapPrefix", ()=>useBootstrapPrefix
+);
+parcelHelpers.export(exports, "useBootstrapBreakpoints", ()=>useBootstrapBreakpoints
+);
+parcelHelpers.export(exports, "useIsRTL", ()=>useIsRTL
+);
+parcelHelpers.export(exports, "createBootstrapComponent", ()=>createBootstrapComponent
+);
+parcelHelpers.export(exports, "ThemeConsumer", ()=>Consumer
+);
+var _react = require("react");
+var _jsxRuntime = require("react/jsx-runtime");
+const DEFAULT_BREAKPOINTS = [
+    'xxl',
+    'xl',
+    'lg',
+    'md',
+    'sm',
+    'xs'
+];
+const ThemeContext = /*#__PURE__*/ _react.createContext({
+    prefixes: {},
+    breakpoints: DEFAULT_BREAKPOINTS
+});
+const { Consumer , Provider  } = ThemeContext;
+function ThemeProvider({ prefixes ={} , breakpoints =DEFAULT_BREAKPOINTS , dir , children  }) {
+    const contextValue = _react.useMemo(()=>({
+            prefixes: {
+                ...prefixes
+            },
+            breakpoints,
+            dir
+        })
+    , [
+        prefixes,
+        breakpoints,
+        dir
+    ]);
+    return /*#__PURE__*/ _jsxRuntime.jsx(Provider, {
+        value: contextValue,
+        children: children
+    });
+}
+function useBootstrapPrefix(prefix, defaultPrefix) {
+    const { prefixes  } = _react.useContext(ThemeContext);
+    return prefix || prefixes[defaultPrefix] || defaultPrefix;
+}
+function useBootstrapBreakpoints() {
+    const { breakpoints  } = _react.useContext(ThemeContext);
+    return breakpoints;
+}
+function useIsRTL() {
+    const { dir  } = _react.useContext(ThemeContext);
+    return dir === 'rtl';
+}
+function createBootstrapComponent(Component, opts) {
+    if (typeof opts === 'string') opts = {
+        prefix: opts
+    };
+    const isClassy = Component.prototype && Component.prototype.isReactComponent; // If it's a functional component make sure we don't break it with a ref
+    const { prefix , forwardRefAs =isClassy ? 'ref' : 'innerRef'  } = opts;
+    const Wrapped = /*#__PURE__*/ _react.forwardRef(({ ...props }, ref)=>{
+        props[forwardRefAs] = ref;
+        const bsPrefix = useBootstrapPrefix(props.bsPrefix, prefix);
+        return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+            ...props,
+            bsPrefix: bsPrefix
+        });
+    });
+    Wrapped.displayName = `Bootstrap(${Component.displayName || Component.name})`;
+    return Wrapped;
+}
+exports.default = ThemeProvider;
+
+},{"react":"21dqq","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"lAynp":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _createWithBsPrefix = require("./createWithBsPrefix");
+var _createWithBsPrefixDefault = parcelHelpers.interopDefault(_createWithBsPrefix);
+var _divWithClassName = require("./divWithClassName");
+var _divWithClassNameDefault = parcelHelpers.interopDefault(_divWithClassName);
+var _cardImg = require("./CardImg");
+var _cardImgDefault = parcelHelpers.interopDefault(_cardImg);
+var _cardHeader = require("./CardHeader");
+var _cardHeaderDefault = parcelHelpers.interopDefault(_cardHeader);
+var _jsxRuntime = require("react/jsx-runtime");
+const DivStyledAsH5 = _divWithClassNameDefault.default('h5');
+const DivStyledAsH6 = _divWithClassNameDefault.default('h6');
+const CardBody = _createWithBsPrefixDefault.default('card-body');
+const CardTitle = _createWithBsPrefixDefault.default('card-title', {
+    Component: DivStyledAsH5
+});
+const CardSubtitle = _createWithBsPrefixDefault.default('card-subtitle', {
+    Component: DivStyledAsH6
+});
+const CardLink = _createWithBsPrefixDefault.default('card-link', {
+    Component: 'a'
+});
+const CardText = _createWithBsPrefixDefault.default('card-text', {
+    Component: 'p'
+});
+const CardFooter = _createWithBsPrefixDefault.default('card-footer');
+const CardImgOverlay = _createWithBsPrefixDefault.default('card-img-overlay');
+const defaultProps = {
+    body: false
+};
+const Card = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , bg , text , border , body , children , // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+as: Component = 'div' , ...props }, ref)=>{
+    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card');
+    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+        ref: ref,
+        ...props,
+        className: _classnamesDefault.default(className, prefix, bg && `bg-${bg}`, text && `text-${text}`, border && `border-${border}`),
+        children: body ? /*#__PURE__*/ _jsxRuntime.jsx(CardBody, {
+            children: children
+        }) : children
+    });
+});
+Card.displayName = 'Card';
+Card.defaultProps = defaultProps;
+exports.default = Object.assign(Card, {
+    Img: _cardImgDefault.default,
+    Title: CardTitle,
+    Subtitle: CardSubtitle,
+    Body: CardBody,
+    Link: CardLink,
+    Text: CardText,
+    Header: _cardHeaderDefault.default,
+    Footer: CardFooter,
+    ImgOverlay: CardImgOverlay
+});
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./createWithBsPrefix":"itt7e","./divWithClassName":"eDg7t","./CardImg":"1reTi","./CardHeader":"dXnnx","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"itt7e":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _camelize = require("dom-helpers/camelize");
+var _camelizeDefault = parcelHelpers.interopDefault(_camelize);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+const pascalCase = (str)=>str[0].toUpperCase() + _camelizeDefault.default(str).slice(1)
+;
+function createWithBsPrefix(prefix, { displayName =pascalCase(prefix) , Component , defaultProps  } = {}) {
+    const BsComponent = /*#__PURE__*/ _react.forwardRef(({ className , bsPrefix , as: Tag = Component || 'div' , ...props }, ref)=>{
+        const resolvedPrefix = _themeProvider.useBootstrapPrefix(bsPrefix, prefix);
+        return /*#__PURE__*/ _jsxRuntime.jsx(Tag, {
+            ref: ref,
+            className: _classnamesDefault.default(className, resolvedPrefix),
+            ...props
+        });
+    });
+    BsComponent.defaultProps = defaultProps;
+    BsComponent.displayName = displayName;
+    return BsComponent;
+}
+exports.default = createWithBsPrefix;
+
+},{"classnames":"jocGM","dom-helpers/camelize":"kbWDq","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"kbWDq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var rHyphen = /-(.)/g;
+function camelize(string) {
+    return string.replace(rHyphen, function(_, chr) {
+        return chr.toUpperCase();
+    });
+}
+exports.default = camelize;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"eDg7t":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _jsxRuntime = require("react/jsx-runtime");
+exports.default = (className)=>/*#__PURE__*/ _react.forwardRef((p, ref)=>/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            ...p,
+            ref: ref,
+            className: _classnamesDefault.default(p.className, className)
+        })
+    )
+;
+
+},{"react":"21dqq","classnames":"jocGM","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"1reTi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+const CardImg = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , variant , as: Component = 'img' , ...props }, ref)=>{
+    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card-img');
+    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+        ref: ref,
+        className: _classnamesDefault.default(variant ? `${prefix}-${variant}` : prefix, className),
+        ...props
+    });
+});
+CardImg.displayName = 'CardImg';
+exports.default = CardImg;
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"dXnnx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _cardHeaderContext = require("./CardHeaderContext");
+var _cardHeaderContextDefault = parcelHelpers.interopDefault(_cardHeaderContext);
+var _jsxRuntime = require("react/jsx-runtime");
+const CardHeader = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+as: Component = 'div' , ...props }, ref)=>{
+    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card-header');
+    const contextValue = _react.useMemo(()=>({
+            cardHeaderBsPrefix: prefix
+        })
+    , [
+        prefix
+    ]);
+    return /*#__PURE__*/ _jsxRuntime.jsx(_cardHeaderContextDefault.default.Provider, {
+        value: contextValue,
+        children: /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+            ref: ref,
+            ...props,
+            className: _classnamesDefault.default(className, prefix)
+        })
+    });
+});
+CardHeader.displayName = 'CardHeader';
+exports.default = CardHeader;
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./CardHeaderContext":"36cNB","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"36cNB":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+const context = /*#__PURE__*/ _react.createContext(null);
+context.displayName = 'CardHeaderContext';
+exports.default = context;
+
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"2j3Ij":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _createWithBsPrefix = require("./createWithBsPrefix");
+var _createWithBsPrefixDefault = parcelHelpers.interopDefault(_createWithBsPrefix);
+exports.default = _createWithBsPrefixDefault.default('card-group');
+
+},{"./createWithBsPrefix":"itt7e","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"1wmVl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _react = require("react");
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _jsxRuntime = require("react/jsx-runtime");
+const propTypes = {
+    'aria-label': _propTypesDefault.default.string,
+    onClick: _propTypesDefault.default.func,
+    /**
+   * Render different color variant for the button.
+   *
+   * Omitting this will render the default dark color.
+   */ variant: _propTypesDefault.default.oneOf([
+        'white'
+    ])
+};
+const defaultProps = {
+    'aria-label': 'Close'
+};
+const CloseButton = /*#__PURE__*/ _react.forwardRef(({ className , variant , ...props }, ref)=>/*#__PURE__*/ _jsxRuntime.jsx("button", {
+        ref: ref,
+        type: "button",
+        className: _classnamesDefault.default('btn-close', variant && `btn-close-${variant}`, className),
+        ...props
+    })
+);
+CloseButton.displayName = 'CloseButton';
+CloseButton.propTypes = propTypes;
+CloseButton.defaultProps = defaultProps;
+exports.default = CloseButton;
+
+},{"prop-types":"7wKI2","react":"21dqq","classnames":"jocGM","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"2L2I6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useCol", ()=>useCol
+);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+function useCol({ as , bsPrefix , className , ...props }) {
+    bsPrefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'col');
+    const breakpoints = _themeProvider.useBootstrapBreakpoints();
+    const spans = [];
+    const classes = [];
+    breakpoints.forEach((brkPoint)=>{
+        const propValue = props[brkPoint];
+        delete props[brkPoint];
+        let span;
+        let offset;
+        let order;
+        if (typeof propValue === 'object' && propValue != null) ({ span , offset , order  } = propValue);
+        else span = propValue;
+        const infix = brkPoint !== 'xs' ? `-${brkPoint}` : '';
+        if (span) spans.push(span === true ? `${bsPrefix}${infix}` : `${bsPrefix}${infix}-${span}`);
+        if (order != null) classes.push(`order${infix}-${order}`);
+        if (offset != null) classes.push(`offset${infix}-${offset}`);
+    });
+    return [
+        {
+            ...props,
+            className: _classnamesDefault.default(className, ...spans, ...classes)
+        },
+        {
+            as,
+            bsPrefix,
+            spans
+        }
+    ];
+}
+const Col = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
+    const [{ className , ...colProps }, { as: Component = 'div' , bsPrefix , spans  }] = useCol(props);
+    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
+        ...colProps,
+        ref: ref,
+        className: _classnamesDefault.default(className, !spans.length && bsPrefix)
+    });
+});
+Col.displayName = 'Col';
+exports.default = Col;
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"acuzI":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
@@ -32044,397 +32973,7 @@ function safeFindDOMNode(componentOrElement) {
 }
 exports.default = safeFindDOMNode;
 
-},{"react-dom":"j6uA9","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"aPzUt":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _react = require("react");
-var _button = require("@restart/ui/Button");
-var _themeProvider = require("./ThemeProvider");
-var _jsxRuntime = require("react/jsx-runtime");
-const defaultProps = {
-    variant: 'primary',
-    active: false,
-    disabled: false
-};
-const Button = /*#__PURE__*/ _react.forwardRef(({ as , bsPrefix , variant , size , active , className , ...props }, ref)=>{
-    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'btn');
-    const [buttonProps, { tagName  }] = _button.useButtonProps({
-        tagName: as,
-        ...props
-    });
-    const Component = tagName;
-    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-        ...buttonProps,
-        ...props,
-        ref: ref,
-        className: _classnamesDefault.default(className, prefix, active && 'active', variant && `${prefix}-${variant}`, size && `${prefix}-${size}`, props.href && props.disabled && 'disabled')
-    });
-});
-Button.displayName = 'Button';
-Button.defaultProps = defaultProps;
-exports.default = Button;
-
-},{"classnames":"jocGM","react":"21dqq","@restart/ui/Button":"8YUbR","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"8YUbR":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "isTrivialHref", ()=>isTrivialHref
-);
-parcelHelpers.export(exports, "useButtonProps", ()=>useButtonProps
-);
-var _react = require("react");
-var _jsxRuntime = require("react/jsx-runtime");
-const _excluded = [
-    "as",
-    "disabled"
-];
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i;
-    for(i = 0; i < sourceKeys.length; i++){
-        key = sourceKeys[i];
-        if (excluded.indexOf(key) >= 0) continue;
-        target[key] = source[key];
-    }
-    return target;
-}
-function isTrivialHref(href) {
-    return !href || href.trim() === '#';
-}
-function useButtonProps({ tagName , disabled , href , target , rel , onClick , tabIndex =0 , type  }) {
-    if (!tagName) {
-        if (href != null || target != null || rel != null) tagName = 'a';
-        else tagName = 'button';
-    }
-    const meta = {
-        tagName
-    };
-    if (tagName === 'button') return [
-        {
-            type: type || 'button',
-            disabled
-        },
-        meta
-    ];
-    const handleClick = (event)=>{
-        if (disabled || tagName === 'a' && isTrivialHref(href)) event.preventDefault();
-        if (disabled) {
-            event.stopPropagation();
-            return;
-        }
-        onClick == null || onClick(event);
-    };
-    const handleKeyDown = (event)=>{
-        if (event.key === ' ') {
-            event.preventDefault();
-            handleClick(event);
-        }
-    };
-    if (tagName === 'a') {
-        // Ensure there's a href so Enter can trigger anchor button.
-        href || (href = '#');
-        if (disabled) href = undefined;
-    }
-    return [
-        {
-            role: 'button',
-            // explicitly undefined so that it overrides the props disabled in a spread
-            // e.g. <Tag {...props} {...hookProps} />
-            disabled: undefined,
-            tabIndex: disabled ? undefined : tabIndex,
-            href,
-            target: tagName === 'a' ? target : undefined,
-            'aria-disabled': !disabled ? undefined : disabled,
-            rel: tagName === 'a' ? rel : undefined,
-            onClick: handleClick,
-            onKeyDown: handleKeyDown
-        },
-        meta
-    ];
-}
-const Button = /*#__PURE__*/ _react.forwardRef((_ref, ref)=>{
-    let { as: asProp , disabled  } = _ref, props = _objectWithoutPropertiesLoose(_ref, _excluded);
-    const [buttonProps, { tagName: Component  }] = useButtonProps(Object.assign({
-        tagName: asProp,
-        disabled
-    }, props));
-    return /*#__PURE__*/ _jsxRuntime.jsx(Component, Object.assign({}, props, buttonProps, {
-        ref: ref
-    }));
-});
-Button.displayName = 'Button';
-exports.default = Button;
-
-},{"react":"21dqq","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"lAynp":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _createWithBsPrefix = require("./createWithBsPrefix");
-var _createWithBsPrefixDefault = parcelHelpers.interopDefault(_createWithBsPrefix);
-var _divWithClassName = require("./divWithClassName");
-var _divWithClassNameDefault = parcelHelpers.interopDefault(_divWithClassName);
-var _cardImg = require("./CardImg");
-var _cardImgDefault = parcelHelpers.interopDefault(_cardImg);
-var _cardHeader = require("./CardHeader");
-var _cardHeaderDefault = parcelHelpers.interopDefault(_cardHeader);
-var _jsxRuntime = require("react/jsx-runtime");
-const DivStyledAsH5 = _divWithClassNameDefault.default('h5');
-const DivStyledAsH6 = _divWithClassNameDefault.default('h6');
-const CardBody = _createWithBsPrefixDefault.default('card-body');
-const CardTitle = _createWithBsPrefixDefault.default('card-title', {
-    Component: DivStyledAsH5
-});
-const CardSubtitle = _createWithBsPrefixDefault.default('card-subtitle', {
-    Component: DivStyledAsH6
-});
-const CardLink = _createWithBsPrefixDefault.default('card-link', {
-    Component: 'a'
-});
-const CardText = _createWithBsPrefixDefault.default('card-text', {
-    Component: 'p'
-});
-const CardFooter = _createWithBsPrefixDefault.default('card-footer');
-const CardImgOverlay = _createWithBsPrefixDefault.default('card-img-overlay');
-const defaultProps = {
-    body: false
-};
-const Card = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , bg , text , border , body , children , // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
-as: Component = 'div' , ...props }, ref)=>{
-    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card');
-    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-        ref: ref,
-        ...props,
-        className: _classnamesDefault.default(className, prefix, bg && `bg-${bg}`, text && `text-${text}`, border && `border-${border}`),
-        children: body ? /*#__PURE__*/ _jsxRuntime.jsx(CardBody, {
-            children: children
-        }) : children
-    });
-});
-Card.displayName = 'Card';
-Card.defaultProps = defaultProps;
-exports.default = Object.assign(Card, {
-    Img: _cardImgDefault.default,
-    Title: CardTitle,
-    Subtitle: CardSubtitle,
-    Body: CardBody,
-    Link: CardLink,
-    Text: CardText,
-    Header: _cardHeaderDefault.default,
-    Footer: CardFooter,
-    ImgOverlay: CardImgOverlay
-});
-
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./createWithBsPrefix":"itt7e","./divWithClassName":"eDg7t","./CardImg":"1reTi","./CardHeader":"dXnnx","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"itt7e":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _camelize = require("dom-helpers/camelize");
-var _camelizeDefault = parcelHelpers.interopDefault(_camelize);
-var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _jsxRuntime = require("react/jsx-runtime");
-const pascalCase = (str)=>str[0].toUpperCase() + _camelizeDefault.default(str).slice(1)
-;
-function createWithBsPrefix(prefix, { displayName =pascalCase(prefix) , Component , defaultProps  } = {}) {
-    const BsComponent = /*#__PURE__*/ _react.forwardRef(({ className , bsPrefix , as: Tag = Component || 'div' , ...props }, ref)=>{
-        const resolvedPrefix = _themeProvider.useBootstrapPrefix(bsPrefix, prefix);
-        return /*#__PURE__*/ _jsxRuntime.jsx(Tag, {
-            ref: ref,
-            className: _classnamesDefault.default(className, resolvedPrefix),
-            ...props
-        });
-    });
-    BsComponent.defaultProps = defaultProps;
-    BsComponent.displayName = displayName;
-    return BsComponent;
-}
-exports.default = createWithBsPrefix;
-
-},{"classnames":"jocGM","dom-helpers/camelize":"kbWDq","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"kbWDq":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var rHyphen = /-(.)/g;
-function camelize(string) {
-    return string.replace(rHyphen, function(_, chr) {
-        return chr.toUpperCase();
-    });
-}
-exports.default = camelize;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"eDg7t":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _react = require("react");
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _jsxRuntime = require("react/jsx-runtime");
-exports.default = (className)=>/*#__PURE__*/ _react.forwardRef((p, ref)=>/*#__PURE__*/ _jsxRuntime.jsx("div", {
-            ...p,
-            ref: ref,
-            className: _classnamesDefault.default(p.className, className)
-        })
-    )
-;
-
-},{"react":"21dqq","classnames":"jocGM","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"1reTi":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _jsxRuntime = require("react/jsx-runtime");
-const CardImg = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , variant , as: Component = 'img' , ...props }, ref)=>{
-    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card-img');
-    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-        ref: ref,
-        className: _classnamesDefault.default(variant ? `${prefix}-${variant}` : prefix, className),
-        ...props
-    });
-});
-CardImg.displayName = 'CardImg';
-exports.default = CardImg;
-
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"dXnnx":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _cardHeaderContext = require("./CardHeaderContext");
-var _cardHeaderContextDefault = parcelHelpers.interopDefault(_cardHeaderContext);
-var _jsxRuntime = require("react/jsx-runtime");
-const CardHeader = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
-as: Component = 'div' , ...props }, ref)=>{
-    const prefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'card-header');
-    const contextValue = _react.useMemo(()=>({
-            cardHeaderBsPrefix: prefix
-        })
-    , [
-        prefix
-    ]);
-    return /*#__PURE__*/ _jsxRuntime.jsx(_cardHeaderContextDefault.default.Provider, {
-        value: contextValue,
-        children: /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-            ref: ref,
-            ...props,
-            className: _classnamesDefault.default(className, prefix)
-        })
-    });
-});
-CardHeader.displayName = 'CardHeader';
-exports.default = CardHeader;
-
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","./CardHeaderContext":"36cNB","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"36cNB":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _react = require("react");
-const context = /*#__PURE__*/ _react.createContext(null);
-context.displayName = 'CardHeaderContext';
-exports.default = context;
-
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"2j3Ij":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _createWithBsPrefix = require("./createWithBsPrefix");
-var _createWithBsPrefixDefault = parcelHelpers.interopDefault(_createWithBsPrefix);
-exports.default = _createWithBsPrefixDefault.default('card-group');
-
-},{"./createWithBsPrefix":"itt7e","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"1wmVl":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-var _react = require("react");
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _jsxRuntime = require("react/jsx-runtime");
-const propTypes = {
-    'aria-label': _propTypesDefault.default.string,
-    onClick: _propTypesDefault.default.func,
-    /**
-   * Render different color variant for the button.
-   *
-   * Omitting this will render the default dark color.
-   */ variant: _propTypesDefault.default.oneOf([
-        'white'
-    ])
-};
-const defaultProps = {
-    'aria-label': 'Close'
-};
-const CloseButton = /*#__PURE__*/ _react.forwardRef(({ className , variant , ...props }, ref)=>/*#__PURE__*/ _jsxRuntime.jsx("button", {
-        ref: ref,
-        type: "button",
-        className: _classnamesDefault.default('btn-close', variant && `btn-close-${variant}`, className),
-        ...props
-    })
-);
-CloseButton.displayName = 'CloseButton';
-CloseButton.propTypes = propTypes;
-CloseButton.defaultProps = defaultProps;
-exports.default = CloseButton;
-
-},{"prop-types":"7wKI2","react":"21dqq","classnames":"jocGM","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"2L2I6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useCol", ()=>useCol
-);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
-var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _jsxRuntime = require("react/jsx-runtime");
-function useCol({ as , bsPrefix , className , ...props }) {
-    bsPrefix = _themeProvider.useBootstrapPrefix(bsPrefix, 'col');
-    const breakpoints = _themeProvider.useBootstrapBreakpoints();
-    const spans = [];
-    const classes = [];
-    breakpoints.forEach((brkPoint)=>{
-        const propValue = props[brkPoint];
-        delete props[brkPoint];
-        let span;
-        let offset;
-        let order;
-        if (typeof propValue === 'object' && propValue != null) ({ span , offset , order  } = propValue);
-        else span = propValue;
-        const infix = brkPoint !== 'xs' ? `-${brkPoint}` : '';
-        if (span) spans.push(span === true ? `${bsPrefix}${infix}` : `${bsPrefix}${infix}-${span}`);
-        if (order != null) classes.push(`order${infix}-${order}`);
-        if (offset != null) classes.push(`offset${infix}-${offset}`);
-    });
-    return [
-        {
-            ...props,
-            className: _classnamesDefault.default(className, ...spans, ...classes)
-        },
-        {
-            as,
-            bsPrefix,
-            spans
-        }
-    ];
-}
-const Col = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
-    const [{ className , ...colProps }, { as: Component = 'div' , bsPrefix , spans  }] = useCol(props);
-    return /*#__PURE__*/ _jsxRuntime.jsx(Component, {
-        ...colProps,
-        ref: ref,
-        className: _classnamesDefault.default(className, !spans.length && bsPrefix)
-    });
-});
-Col.displayName = 'Col';
-exports.default = Col;
-
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"aH18S":[function(require,module,exports) {
+},{"react-dom":"j6uA9","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i"}],"aH18S":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
@@ -34356,6 +34895,7 @@ function useMounted() {
         return mounted.current;
     });
     _react.useEffect(function() {
+        mounted.current = true;
         return function() {
             mounted.current = false;
         };
@@ -35727,7 +36267,7 @@ function LoginView(props) {
                                         children: "Login below:"
                                     }, void 0, false, {
                                         fileName: "src/components/login-view/login-view.jsx",
-                                        lineNumber: 66,
+                                        lineNumber: 65,
                                         columnNumber: 37
                                     }, this),
                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form, {
@@ -35739,7 +36279,7 @@ function LoginView(props) {
                                                         children: "Username:"
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 70,
+                                                        lineNumber: 69,
                                                         columnNumber: 45
                                                     }, this),
                                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -35751,20 +36291,20 @@ function LoginView(props) {
                                                         required: true
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 71,
+                                                        lineNumber: 70,
                                                         columnNumber: 45
                                                     }, this),
                                                     usernameErr && /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
                                                         children: usernameErr
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 77,
+                                                        lineNumber: 76,
                                                         columnNumber: 61
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 69,
+                                                lineNumber: 68,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -35774,7 +36314,7 @@ function LoginView(props) {
                                                         children: "Password:"
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 81,
+                                                        lineNumber: 80,
                                                         columnNumber: 45
                                                     }, this),
                                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -35786,20 +36326,20 @@ function LoginView(props) {
                                                         required: true
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 82,
+                                                        lineNumber: 81,
                                                         columnNumber: 45
                                                     }, this),
                                                     passwordErr && /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
                                                         children: passwordErr
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 89,
+                                                        lineNumber: 88,
                                                         columnNumber: 61
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 80,
+                                                lineNumber: 79,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
@@ -35811,12 +36351,12 @@ function LoginView(props) {
                                                     children: "Log In"
                                                 }, void 0, false, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 92,
+                                                    lineNumber: 91,
                                                     columnNumber: 45
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 91,
+                                                lineNumber: 90,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Text, {
@@ -35824,7 +36364,7 @@ function LoginView(props) {
                                                 children: "Already have an account?"
                                             }, void 0, false, {
                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 94,
+                                                lineNumber: 93,
                                                 columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Text, {
@@ -35835,54 +36375,54 @@ function LoginView(props) {
                                                         children: "Go to the Registration page"
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 96,
+                                                        lineNumber: 95,
                                                         columnNumber: 45
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 95,
+                                                    lineNumber: 94,
                                                     columnNumber: 52
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 95,
+                                                lineNumber: 94,
                                                 columnNumber: 41
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/login-view/login-view.jsx",
-                                        lineNumber: 68,
+                                        lineNumber: 67,
                                         columnNumber: 37
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/login-view/login-view.jsx",
-                                lineNumber: 65,
+                                lineNumber: 64,
                                 columnNumber: 33
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 64,
+                            lineNumber: 63,
                             columnNumber: 29
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 63,
+                        lineNumber: 62,
                         columnNumber: 25
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 62,
+                    lineNumber: 61,
                     columnNumber: 21
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 61,
+                lineNumber: 60,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 60,
+            lineNumber: 59,
             columnNumber: 13
         }, this)
     }, void 0, false);
@@ -36925,6 +37465,7 @@ class ProfileView extends _reactDefault.default.Component {
     // get the user data to display
     getUserData = (token)=>{
         let Username = localStorage.getItem('user');
+        console.log(Username);
         _axiosDefault.default.get(`https://flicking-through-flicks.herokuapp.com/users/${Username}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -36932,7 +37473,6 @@ class ProfileView extends _reactDefault.default.Component {
         }).then((response)=>{
             this.props.setUserObject({
                 Username: response.data.Username,
-                Password: response.data.Password,
                 Email: response.data.Email,
                 Birthday: response.data.Birthday,
                 FavoriteMovies: response.data.FavoriteMovies
@@ -36942,32 +37482,35 @@ class ProfileView extends _reactDefault.default.Component {
         });
     };
     // function to update user data
-    updateUserData = (e)=>{
-        const token = localStorage.getItem('token');
-        let Username = localStorage.getItem('user');
-        e.preventDefault;
-        _axiosDefault.default.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`, {
-            Username: this.props.updateUser.Username,
-            Password: this.props.updateUser.Password,
-            Email: this.props.updateUser.Email,
-            Birthday: this.props.updateUser.Birthday
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then((response)=>{
-            this.props.updateUser({
-                Username: response.data.Username,
-                Password: response.data.Password,
-                Email: response.data.Email,
-                Birthday: response.data.Birthday
-            });
-            localStorage.setItem('user', response.data.Username);
-            alert('Profile update');
-        }).catch(function(error) {
-            console.log(error);
-        });
-    };
+    // updateUserData = (e) => {
+    //   const token = localStorage.getItem('token');
+    //   let Username = localStorage.getItem('user');
+    //   e.preventDefault;
+    //   axios.put(`https://flicking-through-flicks.herokuapp.com/users/${Username}`,
+    //     {
+    //       Username: this.props.updateUser.Username,
+    //       Password: this.props.updateUser.Password,
+    //       Email: this.props.updateUser.Email,
+    //       Birthday: this.props.updateUser.Birthday
+    //     },
+    //     {
+    //       headers: { Authorization: `Bearer ${token}` }
+    //     })
+    //     .then((response) => {
+    //       this.props.updateUser({
+    //         Username: response.data.Username,
+    //         Password: response.data.Password,
+    //         Email: response.data.Email,
+    //         Birthday: response.data.Birthday
+    //       });
+    //       localStorage.setItem('user', response.data.Username);
+    //       alert('Profile update');
+    //     }
+    //     )
+    //     .catch(function (error) {
+    //       console.log(error)
+    //     })
+    // };
     // function to delete the user 
     deleteUser(e) {
         const Username = localStorage.getItem('user');
@@ -37025,12 +37568,14 @@ class ProfileView extends _reactDefault.default.Component {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateUserDefault.default, {
-                        username: Username,
-                        setUsername: this.setUsername,
-                        setPassword: this.setPassword,
-                        setEmail: this.setEmail,
-                        setBirthday: this.setBirthday,
-                        updateUserData: this.updateUserData
+                        userObject: this.props.userObject,
+                        changeHandler: this.props.setUserObject,
+                        updateUserData: ()=>this.props.profileUpdate({
+                                Username: this.props.userObject.Username,
+                                Password: this.props.userObject.Password,
+                                Email: this.props.userObject.Email,
+                                Birthday: this.props.userObject.Birthday
+                            })
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
                         lineNumber: 151,
@@ -37042,7 +37587,7 @@ class ProfileView extends _reactDefault.default.Component {
                         removeFav: this.removeFav
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 152,
+                        lineNumber: 157,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -37053,7 +37598,7 @@ class ProfileView extends _reactDefault.default.Component {
                                     children: "Here lies danger!"
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 155,
+                                    lineNumber: 160,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -37063,18 +37608,18 @@ class ProfileView extends _reactDefault.default.Component {
                                     children: "Delete your account"
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 156,
+                                    lineNumber: 161,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 154,
+                            lineNumber: 159,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 153,
+                        lineNumber: 158,
                         columnNumber: 11
                     }, this)
                 ]
@@ -37096,7 +37641,7 @@ let mapStateToProps = (state)=>{
 exports.default = _reactRedux.connect(mapStateToProps, {
     setUser: _actions.setUser,
     setUserObject: _actions.setUserObject,
-    updateUser: _actions.updateUser
+    profileUpdate: _actions.profileUpdate
 })(ProfileView);
 
   $parcel$ReactRefreshHelpers$3c12.postlude(module);
@@ -37104,7 +37649,7 @@ exports.default = _reactRedux.connect(mapStateToProps, {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","../../actions/actions":"biFwH","react-redux":"bdVon","react-bootstrap":"3AD9A","./user-info":"66eot","./favorite-movies":"dTTQH","./update-user":"2SBwg","./profile-view.scss":"eyKYH","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"66eot":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-redux":"bdVon","../../actions/actions":"biFwH","./user-info":"66eot","./favorite-movies":"dTTQH","./update-user":"2SBwg","react-bootstrap":"3AD9A","./profile-view.scss":"eyKYH","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"66eot":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$1330 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -37274,7 +37819,7 @@ function FavMovies({ favoriteMovieList , movies , removeFav  }) {
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
                 className: "mx-auto w-100",
-                children: favoriteMovieList.map((movieID)=>{
+                children: favoriteMovieList && favoriteMovieList.map((movieID)=>{
                     const [movie1] = movies.filter((movie)=>movie._id === movieID
                     );
                     return movie1 && /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
@@ -37364,7 +37909,8 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
 var _profileViewScss = require("../profile-view/profile-view.scss");
-function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
+function UpdateInfo({ updateUserData , userObject , changeHandler  }) {
+    const { Username , Password , Email , Birthday  } = userObject;
     return /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_jsxDevRuntime.Fragment, {
         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
             className: "m-2 mx-auto",
@@ -37378,7 +37924,7 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                     children: "Update your information:"
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/update-user.jsx",
-                                    lineNumber: 14,
+                                    lineNumber: 16,
                                     columnNumber: 33
                                 }, this),
                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form, {
@@ -37390,23 +37936,27 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                                     children: "Username:"
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 17,
+                                                    lineNumber: 19,
                                                     columnNumber: 41
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
                                                     type: "text",
                                                     name: "Username",
                                                     placeholder: "Enter your desired username",
-                                                    value: Username
+                                                    value: Username,
+                                                    onChange: (e)=>changeHandler({
+                                                            ...userObject,
+                                                            Username: e.target.value
+                                                        })
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 18,
+                                                    lineNumber: 20,
                                                     columnNumber: 41
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/profile-view/update-user.jsx",
-                                            lineNumber: 16,
+                                            lineNumber: 18,
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -37416,22 +37966,26 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                                     children: "Password:"
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 27,
+                                                    lineNumber: 29,
                                                     columnNumber: 41
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
                                                     type: "password",
                                                     placeholder: "Your password must be 8 or more characters long",
-                                                    minLength: 8
+                                                    minLength: 8,
+                                                    onChange: (e)=>changeHandler({
+                                                            ...userObject,
+                                                            Password: e.target.value
+                                                        })
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 28,
+                                                    lineNumber: 30,
                                                     columnNumber: 41
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/profile-view/update-user.jsx",
-                                            lineNumber: 26,
+                                            lineNumber: 28,
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -37441,22 +37995,26 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                                     children: "Email:"
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 37,
+                                                    lineNumber: 39,
                                                     columnNumber: 41
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
                                                     type: "text",
                                                     value: Email,
-                                                    placeholder: "Enter your email address"
+                                                    placeholder: "Enter your email address",
+                                                    onChange: (e)=>changeHandler({
+                                                            ...userObject,
+                                                            Email: e.target.value
+                                                        })
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 38,
+                                                    lineNumber: 40,
                                                     columnNumber: 41
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/profile-view/update-user.jsx",
-                                            lineNumber: 36,
+                                            lineNumber: 38,
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -37466,22 +38024,26 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                                     children: "Birthday:"
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 45,
+                                                    lineNumber: 49,
                                                     columnNumber: 41
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
                                                     type: "date",
                                                     name: "birthday",
-                                                    value: Birthday
+                                                    value: Birthday,
+                                                    onChange: (e)=>changeHandler({
+                                                            ...userObject,
+                                                            Birthday: e.target.value
+                                                        })
                                                 }, void 0, false, {
                                                     fileName: "src/components/profile-view/update-user.jsx",
-                                                    lineNumber: 46,
+                                                    lineNumber: 50,
                                                     columnNumber: 41
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/profile-view/update-user.jsx",
-                                            lineNumber: 44,
+                                            lineNumber: 48,
                                             columnNumber: 37
                                         }, this),
                                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -37491,39 +38053,39 @@ function UpdateInfo({ updateUserData , Username , Email , Birthday  }) {
                                             children: "Update Info"
                                         }, void 0, false, {
                                             fileName: "src/components/profile-view/update-user.jsx",
-                                            lineNumber: 53,
+                                            lineNumber: 58,
                                             columnNumber: 37
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/profile-view/update-user.jsx",
-                                    lineNumber: 15,
+                                    lineNumber: 17,
                                     columnNumber: 33
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/profile-view/update-user.jsx",
-                            lineNumber: 13,
+                            lineNumber: 15,
                             columnNumber: 29
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-user.jsx",
-                        lineNumber: 12,
+                        lineNumber: 14,
                         columnNumber: 25
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/profile-view/update-user.jsx",
-                    lineNumber: 11,
+                    lineNumber: 13,
                     columnNumber: 21
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user.jsx",
-                lineNumber: 10,
+                lineNumber: 12,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "src/components/profile-view/update-user.jsx",
-            lineNumber: 9,
+            lineNumber: 11,
             columnNumber: 13
         }, this)
     }, void 0, false);

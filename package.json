@@ -18,12 +18,23 @@
   },
   "homepage": "https://github.com/mareeanamaro/myFlix-client-v2#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "2.0.0-nightly.1015",
+    "axios": "^0.26.1",
+    "process": "^0.11.10",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-bootstrap": "^2.2.1",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.2",
+    "redux-actions": "^2.6.5",
+    "redux-devtools-extension": "^2.13.9"
   },
   "dependencies": {
     "@parcel/core": "^2.3.2",
-    "@parcel/transformer-sass": "^2.0.0-rc.0",
-    "parcel": "^2.0.0-nightly.1004"
+    "parcel": "2.0.0-nightly.1013",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1"
   }
 }

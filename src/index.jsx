@@ -1,15 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import { Provider } from 'react-redux';
+import moviesApp from './reducers/reducers';
+
+
 import MainView from './components/main-view/main-view';
 
-// Import statement to indicate that you need to bundle `./index.scss`
+import Container from 'react-bootstrap/Container';
 import './index.scss';
+
+
+const configureStore = (preloadedState) => {
+  const store = createStore(
+    moviesApp,
+    preloadedState,
+    compose(
+      applyMiddleware(thunk, createLogger()),
+    ),
+  );
+
+  return store;
+};
+
+// const myFlixStore = createStore(moviesApp, devToolsEnhancer());
+
+const myFlixStore = configureStore();
+
 
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {
     return (
-      <MainView />
+      // the provider makes the story available to all components
+      <Provider store={myFlixStore}>
+        <Container>
+          <MainView />
+        </Container>
+      </Provider>
     );
   }
 }

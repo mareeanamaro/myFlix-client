@@ -1,4 +1,5 @@
-# Project Description
+# Flicking through Flicks
+## Project Description
 Flicking through Flicks is a client-side application, created with React.js and Sass based on the existing server-side code (REST API and mongo database) from a previous task.
 This was my first attempt at a React app and at building a more complex web application.
 
@@ -21,7 +22,8 @@ Nodejs, React, React-DOM, Parcel, Axios, Redux, Bootstrap
 
 ## Links
 * **Repository:** https://github.com/mareeanamaro/myFlix-client
-* **Live link:** WIP
+* **Live link:** https://flickingthroughflicks.netlify.app/
+
 ## Screenshots
 ![Main View showing a list of movies](./screenshots/main-view.png)
 ![Movie View showing the details of a movie](./screenshots/movie-view.png)

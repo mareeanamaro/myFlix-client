@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../nav-bar/nav-bar.scss';
 
 export function Menubar({ user }) {
@@ -21,6 +22,7 @@ export function Menubar({ user }) {
         }
     }
 
+    
     return (
         <Navbar className=' fluid main-nav navbar-bg m-3'>
             <Container>
@@ -31,7 +33,7 @@ export function Menubar({ user }) {
                 <Navbar.Collapse id='responsive-navbar-nav'>
                     <Nav className="ml-auto">
                         {
-                            isAuth() && <Nav.Link className="navbar-text mr-4" href="/profile">{user}</Nav.Link>
+                            isAuth() && <Nav.Link className="navbar-text mr-4" as={Link} to={`/users/${user}`}>Profile</Nav.Link>
                         }
                         {
                             isAuth() && <Button variant="link" className="link" onClick={() => { onLoggedOut() }}>Log Out</Button>

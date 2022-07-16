@@ -30145,6 +30145,7 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
+var _reactRouterDom = require("react-router-dom");
 var _navBarScss = require("../nav-bar/nav-bar.scss");
 function Menubar({ user  }) {
     const onLoggedOut = ()=>{
@@ -30166,14 +30167,14 @@ function Menubar({ user  }) {
                     children: "Flicking Through Flicks"
                 }, void 0, false, {
                     fileName: "src/components/nav-bar/nav-bar.jsx",
-                    lineNumber: 27,
+                    lineNumber: 29,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Navbar.Toggle, {
                     "aria-controls": "responsive-navbar-nav"
                 }, void 0, false, {
                     fileName: "src/components/nav-bar/nav-bar.jsx",
-                    lineNumber: 30,
+                    lineNumber: 32,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Navbar.Collapse, {
@@ -30183,11 +30184,12 @@ function Menubar({ user  }) {
                         children: [
                             isAuth() && /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Nav.Link, {
                                 className: "navbar-text mr-4",
-                                href: "/profile",
-                                children: user
+                                as: _reactRouterDom.Link,
+                                to: `/users/${user}`,
+                                children: "Profile"
                             }, void 0, false, {
                                 fileName: "src/components/nav-bar/nav-bar.jsx",
-                                lineNumber: 34,
+                                lineNumber: 36,
                                 columnNumber: 41
                             }, this),
                             isAuth() && /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -30199,7 +30201,7 @@ function Menubar({ user  }) {
                                 children: "Log Out"
                             }, void 0, false, {
                                 fileName: "src/components/nav-bar/nav-bar.jsx",
-                                lineNumber: 37,
+                                lineNumber: 39,
                                 columnNumber: 41
                             }, this),
                             !isAuth() && /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Nav.Link, {
@@ -30208,7 +30210,7 @@ function Menubar({ user  }) {
                                 children: "Sign In"
                             }, void 0, false, {
                                 fileName: "src/components/nav-bar/nav-bar.jsx",
-                                lineNumber: 40,
+                                lineNumber: 42,
                                 columnNumber: 42
                             }, this),
                             !isAuth() && /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Nav.Link, {
@@ -30217,29 +30219,29 @@ function Menubar({ user  }) {
                                 children: "Register"
                             }, void 0, false, {
                                 fileName: "src/components/nav-bar/nav-bar.jsx",
-                                lineNumber: 43,
+                                lineNumber: 45,
                                 columnNumber: 42
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/nav-bar/nav-bar.jsx",
-                        lineNumber: 32,
+                        lineNumber: 34,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/nav-bar/nav-bar.jsx",
-                    lineNumber: 31,
+                    lineNumber: 33,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/components/nav-bar/nav-bar.jsx",
-            lineNumber: 26,
+            lineNumber: 28,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "src/components/nav-bar/nav-bar.jsx",
-        lineNumber: 25,
+        lineNumber: 27,
         columnNumber: 9
     }, this);
 }
@@ -30252,7 +30254,7 @@ $RefreshReg$(_c, "Menubar");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","../nav-bar/nav-bar.scss":"aUy9V","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp"}],"3AD9A":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","../nav-bar/nav-bar.scss":"aUy9V","@parcel/transformer-js/src/esmodule-helpers.js":"dFy1i","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"cDvUp","react-router-dom":"cHIiW"}],"3AD9A":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Accordion", ()=>_accordionDefault.default

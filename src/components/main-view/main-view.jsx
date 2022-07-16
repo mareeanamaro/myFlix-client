@@ -111,8 +111,8 @@ class MainView extends React.Component {
                         }} />
 
                         {/* show profile view */}
-                        <Route path="/profile"
-                            render={({ user, history }) => {
+                        <Route path="/users/:username"
+                            render={({ history }) => {
                                 return <Col>
                                     <ProfileView movies={movies} user={user} onBackClick={() => history.goBack()} />
                                 </Col>

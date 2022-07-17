@@ -1,4 +1,5 @@
 # Flicking through Flicks
+
 ## Project Description
 Flicking through Flicks is a client-side application, created with React.js and Sass based on the existing server-side code (REST API and mongo database) from a previous task.
 This was my first attempt at a React app and at building a more complex web application.

@@ -77,7 +77,6 @@ class ProfileView extends React.Component {
 
     const { movies } = this.props;
     const { Username, Email, Birthday, FavoriteMovies } = this.props.userObject;
-    const user = localStorage.getItem('user');
 
     if (!Username) {
       return null;
